@@ -1,20 +1,14 @@
-import RouteCard from '../components/RouteCard'
-import { localRoutes } from '../data/routes'
+import EmptyState from '../components/EmptyState'
 
 export default function RoutesPage() {
   return (
     <div className="page">
       <header className="page-hero">
-        <p className="eyebrow">Local Routes</p>
-        <h1>Dalian routes for different moods.</h1>
-        <p>Soft routes for sea air, local food, records, vintage rooms, quiet books, small bars, and low-pressure city days.</p>
+        <p className="eyebrow">Routes</p>
+        <h1>City routes are being edited.</h1>
+        <p>Routes will return after the CMS contains enough real places for each city.</p>
       </header>
-
-      <section className="routes-strip">
-        <div className="route-list large">
-          {localRoutes.map((route, index) => <RouteCard key={route.id} route={route} index={index} />)}
-        </div>
-      </section>
+      <EmptyState />
     </div>
   )
 }

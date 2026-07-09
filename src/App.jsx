@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import Places from './pages/Places'
+import CityPage from './pages/CityPage'
 import PlaceDetail from './pages/PlaceDetail'
 import RoutesPage from './pages/Routes'
 import RouteDetail from './pages/RouteDetail'
@@ -12,6 +13,12 @@ import LocalTips from './pages/LocalTips'
 import CustomPlan from './pages/CustomPlan'
 import About from './pages/About'
 import Recommend from './pages/Recommend'
+import AdminLogin from './pages/AdminLogin'
+import AdminDashboard from './pages/AdminDashboard'
+import AdminCities from './pages/AdminCities'
+import AdminCityForm from './pages/AdminCityForm'
+import AdminPlaces from './pages/AdminPlaces'
+import AdminPlaceForm from './pages/AdminPlaceForm'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -32,7 +39,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/places" element={<Places />} />
-          <Route path="/places/:id" element={<PlaceDetail />} />
+          <Route path="/cities/:citySlug" element={<CityPage />} />
+          <Route path="/cities/:citySlug/places/:placeSlug" element={<PlaceDetail />} />
           <Route path="/routes" element={<RoutesPage />} />
           <Route path="/routes/:id" element={<RouteDetail />} />
           <Route path="/mood-finder" element={<MoodFinder />} />
@@ -40,6 +48,14 @@ export default function App() {
           <Route path="/custom-plan" element={<CustomPlan />} />
           <Route path="/about" element={<About />} />
           <Route path="/recommend" element={<Recommend />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/cities" element={<AdminCities />} />
+          <Route path="/admin/cities/new" element={<AdminCityForm />} />
+          <Route path="/admin/cities/:id/edit" element={<AdminCityForm />} />
+          <Route path="/admin/places" element={<AdminPlaces />} />
+          <Route path="/admin/places/new" element={<AdminPlaceForm />} />
+          <Route path="/admin/places/:id/edit" element={<AdminPlaceForm />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>

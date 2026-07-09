@@ -4,13 +4,12 @@ import Icon from './Icon'
 
 const links = [
   ['/', 'Home'],
-  ['/places', 'Places'],
+  ['/', 'Cities'],
   ['/routes', 'Routes'],
   ['/mood-finder', 'Mood Finder'],
   ['/local-tips', 'Local Tips'],
-  ['/custom-plan', 'Custom Plan'],
   ['/about', 'About'],
-  ['/recommend', 'Recommend'],
+  ['/admin/login', 'Admin'],
 ]
 
 export default function Navbar() {
@@ -22,7 +21,7 @@ export default function Navbar() {
       <div className="nav-shell">
         <Link className="wordmark" to="/" onClick={() => setOpen(false)}>
           <span>Free Soul Atlas</span>
-          <small>Dalian Edition</small>
+          <small>City Editions</small>
         </Link>
 
         <button className="menu-button" aria-label="Toggle navigation" onClick={() => setOpen((value) => !value)}>
@@ -37,7 +36,7 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <Link className="nav-search" to="/places" aria-label="Search places">
+        <Link className="nav-search" to="/" aria-label="Explore cities">
           <Icon name="search" />
         </Link>
       </div>

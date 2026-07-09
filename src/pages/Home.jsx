@@ -1,70 +1,104 @@
+import { useEffect, useState } from 'react'
 import { Link } from '../lib/router'
 import Icon from '../components/Icon'
+import CityCard from '../components/CityCard'
 import PlaceCard from '../components/PlaceCard'
-import RouteCard from '../components/RouteCard'
 import VisualBlock from '../components/VisualBlock'
-import { places } from '../data/places'
-import { localRoutes } from '../data/routes'
+import EmptyState from '../components/EmptyState'
+import { getPublishedCities } from '../services/cityService'
+import { getFeaturedPublishedPlaces } from '../services/placeService'
 
 export default function Home() {
-  const featured = places.slice(0, 6)
+  const [cities, setCities] = useState([])
+  const [featuredPlaces, setFeaturedPlaces] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    let mounted = true
+    async function load() {
+      try {
+        const [cityData, placeData] = await Promise.all([
+          getPublishedCities(),
+          getFeaturedPublishedPlaces(6),
+        ])
+        if (!mounted) return
+        setCities(cityData)
+        setFeaturedPlaces(placeData)
+      } catch (loadError) {
+        if (mounted) setError(loadError.message)
+      } finally {
+        if (mounted) setLoading(false)
+      }
+    }
+    load()
+    return () => {
+      mounted = false
+    }
+  }, [])
+
+  const hasContent = cities.length > 0 || featuredPlaces.length > 0
 
   return (
     <div className="home-page">
       <section className="home-cover">
         <div className="cover-masthead">
-          <span>Free Soul Atlas — Dalian</span>
-          <span>Local-curated guides to soulful places beyond tourist spots.</span>
+          <span>Free Soul Atlas</span>
+          <span>City archives for soulful places, local rooms, and quiet routes.</span>
         </div>
 
         <div className="cover-grid">
           <div className="cover-copy">
-            <p className="eyebrow">Dalian / First Edition</p>
-            <h1>Discover Dalian Beyond Tourist Spots</h1>
+            <p className="eyebrow">Global Index / City Editions</p>
+            <h1>Find free souls across cities.</h1>
             <p className="cover-subtitle">
-              A local-curated atlas of soulful places, hidden shops, vintage stores, record spots, bars, creative spaces, local food, sea walks, and real local routes.
+              An editorial atlas of real places with atmosphere, independent taste, local rhythm, and a reason to exist beyond tourist checklists.
             </p>
             <div className="cover-actions">
-              <Link className="button dark" to="/places">Explore Places</Link>
-              <Link className="button light" to="/routes">Find Your Route</Link>
-              <Link className="button text" to="/custom-plan">Get a Custom Local Plan <Icon name="arrowRight" /></Link>
+              <a className="button dark" href="#cities">Choose a City</a>
+              <Link className="button light" to="/about">About the Atlas</Link>
+              <Link className="button text" to="/admin/login">Admin Login <Icon name="arrowRight" /></Link>
             </div>
           </div>
 
           <div className="cover-feature">
-            <VisualBlock tone="sea" label="Featured Mood" meta="Sea / Records / Slow Local Life" />
+            <VisualBlock tone="paper" label="Free Soul Atlas" meta="Cities / Places / Field Notes" />
             <div className="feature-note">
               <span>Editorial Note</span>
-              <p>Not a checklist. Not a ranking. A soft map of places that make Dalian feel more human, more local, and more alive.</p>
+              <p>Not a ranking. Not a travel checklist. A quieter index of cities through the people and places that make them feel alive.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section-shell">
+      <section className="section-shell" id="cities">
         <div className="section-title">
-          <span>01 / Places</span>
-          <h2>Featured Places</h2>
-          <Link to="/places">View all places <Icon name="arrowRight" /></Link>
+          <span>01 / City Editions</span>
+          <h2>Choose a city.</h2>
         </div>
-        <div className="masonry-grid">
-          {featured.map((place, index) => (
-            <PlaceCard key={place.id} place={place} index={index} />
-          ))}
-        </div>
+        {loading && <EmptyState title="内容正在采集中" note="Loading the city archive..." />}
+        {!loading && error && <EmptyState title="内容正在采集中" note={error} />}
+        {!loading && !error && cities.length === 0 && <EmptyState />}
+        {!loading && !error && cities.length > 0 && (
+          <div className="city-grid">
+            {cities.map((city, index) => <CityCard key={city.id} city={city} index={index} />)}
+          </div>
+        )}
       </section>
 
-      <section className="routes-strip">
-        <div className="section-title">
-          <span>02 / Local Routes</span>
-          <h2>Routes shaped by the rhythm of the city.</h2>
-        </div>
-        <div className="route-list">
-          {localRoutes.slice(0, 3).map((route, index) => (
-            <RouteCard key={route.id} route={route} index={index} />
-          ))}
-        </div>
-      </section>
+      {hasContent && featuredPlaces.length > 0 && (
+        <section className="section-shell">
+          <div className="section-title">
+            <span>02 / Featured Places</span>
+            <h2>Across the atlas</h2>
+          </div>
+          <div className="masonry-grid">
+            {featuredPlaces.map((place, index) => (
+              <PlaceCard key={place.id} place={place} index={index} />
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="criteria-section">
         <div>
@@ -77,22 +111,6 @@ export default function Home() {
           <p>A Free Soul place is not just made for photos. It has a reason to exist.</p>
           <p>It may be small, quiet, strange, imperfect, or hard to categorize. But it makes the city feel more human, more diverse, and more alive.</p>
         </div>
-      </section>
-
-      <section className="cta-panel">
-        <div>
-          <span>Mood Finder</span>
-          <h2>Not sure where to start?</h2>
-          <p>Answer three simple questions and get a route or places that match your current energy.</p>
-        </div>
-        <Link className="button dark" to="/mood-finder">Find My Mood</Link>
-      </section>
-
-      <section className="custom-cta">
-        <span>Custom Local Plan</span>
-        <h2>Want Dalian through local eyes?</h2>
-        <p>Tell us your dates, interests, budget, and vibe. We’ll help design a route beyond tourist spots.</p>
-        <Link className="button light" to="/custom-plan">Request My Local Plan</Link>
       </section>
     </div>
   )
