@@ -45,7 +45,7 @@ button { cursor: pointer; }
   display: block;
   font-size: 26px;
   font-weight: 900;
-  letter-spacing: -.065em;
+  letter-spacing: -0.03em;
 }
 .wordmark small {
   display: block;
@@ -107,7 +107,7 @@ button { cursor: pointer; }
   margin: 0;
   font-size: 11px;
   font-weight: 800;
-  letter-spacing: .2em;
+  letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -146,8 +146,8 @@ button { cursor: pointer; }
 .about-cover h1 {
   margin: 24px 0;
   font-size: clamp(5.2rem, 9.5vw, 12.8rem);
-  line-height: .82;
-  letter-spacing: -.115em;
+  line-height: .94;
+  letter-spacing: -0.035em;
   font-weight: 900;
 }
 .cover-subtitle,
@@ -194,7 +194,7 @@ button { cursor: pointer; }
   text-transform: uppercase;
   color: var(--muted);
 }
-.feature-note p { margin: 0; font-family: var(--font); font-size: 22px; font-weight: 700; letter-spacing: -.045em; line-height: 1.25; }
+.feature-note p { margin: 0; font-family: var(--font); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; }
 
 .visual-block {
   position: relative;
@@ -311,7 +311,7 @@ button { cursor: pointer; }
   margin: 16px 0 0;
   font-size: clamp(2.5rem, 5vw, 6.5rem);
   line-height: .95;
-  letter-spacing: -.075em;
+  letter-spacing: -0.035em;
 }
 .section-title a {
   display: inline-flex;
@@ -343,7 +343,7 @@ button { cursor: pointer; }
   margin: 8px 0 10px;
   font-size: clamp(2.2rem, 4vw, 4.8rem);
   line-height: .9;
-  letter-spacing: -.06em;
+  letter-spacing: -0.03em;
 }
 .city-card p {
   margin: 0;
@@ -387,7 +387,7 @@ button { cursor: pointer; }
   margin: 0;
   font-size: 24px;
   line-height: 1;
-  letter-spacing: -.06em;
+  letter-spacing: -0.03em;
 }
 .save-min {
   width: 34px;
@@ -447,7 +447,7 @@ button { cursor: pointer; }
   margin: 8px 0 10px;
   font-size: clamp(2rem, 4vw, 5rem);
   line-height: .95;
-  letter-spacing: -.07em;
+  letter-spacing: -0.035em;
 }
 .route-card p {
   max-width: 720px;
@@ -466,7 +466,7 @@ button { cursor: pointer; }
   margin: 18px 0;
   font-size: clamp(3rem, 6vw, 7.5rem);
   line-height: .9;
-  letter-spacing: -.085em;
+  letter-spacing: -0.035em;
 }
 .criteria-copy p {
   margin: 0 0 28px;
@@ -474,7 +474,7 @@ button { cursor: pointer; }
   font-weight: 650;
   font-size: clamp(1.3rem, 1.9vw, 2.25rem);
   line-height: 1.28;
-  letter-spacing: -.045em;
+  letter-spacing: -0.02em;
 }
 .cta-panel {
   display: flex;
@@ -561,7 +561,7 @@ button { cursor: pointer; }
   border: 1px solid var(--line);
   margin-bottom: 120px;
 }
-.empty-state h2 { font-size: clamp(2rem, 4vw, 4rem); letter-spacing: -.06em; }
+.empty-state h2 { font-size: clamp(2rem, 4vw, 4rem); letter-spacing: -0.03em; }
 .empty-state p { color: var(--muted); }
 
 .detail-nav {
@@ -592,7 +592,7 @@ button { cursor: pointer; }
   margin: 24px 0;
   font-size: clamp(4rem, 7vw, 9rem);
   line-height: .9;
-  letter-spacing: -.085em;
+  letter-spacing: -0.035em;
 }
 .detail-intro > p:not(.eyebrow) {
   font-family: var(--serif);
@@ -620,7 +620,7 @@ button { cursor: pointer; }
   margin: 0 0 18px;
   font-size: clamp(2rem, 3.5vw, 4.3rem);
   line-height: .98;
-  letter-spacing: -.065em;
+  letter-spacing: -0.03em;
 }
 .story-column p,
 .story-column li {
@@ -662,7 +662,7 @@ button { cursor: pointer; }
   align-items: center;
   gap: 12px;
   font-size: 38px;
-  letter-spacing: -.055em;
+  letter-spacing: -0.03em;
 }
 .map-placeholder h2 svg,
 .map-placeholder a svg { width: 18px; }
@@ -733,7 +733,7 @@ button { cursor: pointer; }
   margin: 8px 0;
   font-size: clamp(2rem, 4vw, 5rem);
   line-height: .98;
-  letter-spacing: -.07em;
+  letter-spacing: -0.035em;
 }
 .timeline-stop p { max-width: 760px; color: var(--muted); }
 .timeline-stop em { font-style: normal; font-weight: 800; font-size: 12px; text-transform: uppercase; }
@@ -760,7 +760,7 @@ button { cursor: pointer; }
 .choice-group h2 {
   margin: 0 0 16px;
   font-size: clamp(1.6rem, 2.5vw, 3rem);
-  letter-spacing: -.055em;
+  letter-spacing: -0.03em;
 }
 .choice-group div {
   display: flex;
@@ -797,7 +797,7 @@ button { cursor: pointer; }
   margin: 0;
   font-size: clamp(1.8rem, 3vw, 3.5rem);
   line-height: 1;
-  letter-spacing: -.06em;
+  letter-spacing: -0.03em;
 }
 .tips-list p { margin: 0; color: var(--muted); font-size: 18px; line-height: 1.7; }
 
@@ -868,7 +868,7 @@ button { cursor: pointer; }
   margin: 16px 0 10px;
   font-size: clamp(3.4rem, 7vw, 8rem);
   line-height: .9;
-  letter-spacing: -.06em;
+  letter-spacing: -0.03em;
 }
 .admin-header p {
   margin: 0;
@@ -919,8 +919,8 @@ button { cursor: pointer; }
   display: block;
   margin-top: 12px;
   font-size: clamp(3rem, 6vw, 6rem);
-  line-height: .85;
-  letter-spacing: -.06em;
+  line-height: .95;
+  letter-spacing: -0.03em;
 }
 .admin-actions {
   margin: 34px 0;
@@ -950,7 +950,7 @@ button { cursor: pointer; }
   margin: 8px 0;
   font-size: clamp(1.8rem, 3vw, 3rem);
   line-height: 1;
-  letter-spacing: -.045em;
+  letter-spacing: -0.02em;
 }
 .admin-table p {
   margin: 0;
@@ -971,7 +971,7 @@ button { cursor: pointer; }
   margin: 16px 0;
   font-size: clamp(3rem, 6vw, 7rem);
   line-height: .92;
-  letter-spacing: -.085em;
+  letter-spacing: -0.035em;
 }
 .success-page p { color: var(--muted); }
 .success-page button { margin: 18px auto 0; }
@@ -1004,7 +1004,7 @@ button { cursor: pointer; }
   border-bottom: 1px solid var(--line);
   font-size: clamp(2rem, 4vw, 5rem);
   line-height: 1;
-  letter-spacing: -.07em;
+  letter-spacing: -0.035em;
 }
 .founder-note {
   display: grid;
@@ -1033,7 +1033,7 @@ button { cursor: pointer; }
   display: block;
   font-size: clamp(2.5rem, 5vw, 6rem);
   line-height: .9;
-  letter-spacing: -.085em;
+  letter-spacing: -0.035em;
 }
 .footer p { max-width: 520px; color: var(--muted); }
 .footer nav {
@@ -1129,7 +1129,7 @@ button { cursor: pointer; }
   .place-detail-hero { width: calc(100% - 28px); }
   .cover-copy h1,
   .page-hero h1,
-  .about-cover h1 { letter-spacing: -.09em; }
+  .about-cover h1 { letter-spacing: -0.03em; }
   .cover-subtitle,
   .page-hero p { font-size: 1rem; }
   .cover-feature { min-height: 430px; }
@@ -1308,7 +1308,7 @@ body {
 .visual-block span,
 .visual-block small {
   font-size: 10px;
-  letter-spacing: .22em;
+  letter-spacing: .16em;
 }
 
 .tone-charcoal small,
@@ -1412,11 +1412,146 @@ body {
   .about-cover h1 {
     font-size: clamp(4rem, 12vw, 7.4rem);
     line-height: .9;
-    letter-spacing: -.055em;
+    letter-spacing: -0.03em;
   }
 
   .cover-feature {
     min-height: 460px;
+  }
+}
+
+/* Final editorial typography pass: keep the magazine scale, remove cramped type. */
+.wordmark span {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-stretch: normal;
+}
+
+.nav-menu,
+.wordmark small,
+.eyebrow,
+.cover-masthead,
+.feature-note span,
+.section-title span,
+.detail-nav,
+.filter-row > span,
+.result-line,
+.fact-sheet small,
+.timeline-stop small,
+.route-notes span,
+.tips-list article span,
+.founder-note span,
+.success-page span,
+.admin-header nav a,
+.admin-header nav button,
+.admin-stats span,
+.admin-table span,
+.editorial-form label,
+.footer nav {
+  letter-spacing: 0.14em;
+  line-height: 1.25;
+}
+
+.nav-menu {
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.button,
+.filter-row button,
+.choice-group button,
+.save-min,
+.section-title a,
+.admin-row-actions a,
+.admin-row-actions button {
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+}
+
+.cover-copy h1,
+.page-hero h1,
+.about-cover h1 {
+  font-size: clamp(4rem, 11vw, 9.5rem);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+  font-stretch: normal;
+}
+
+.section-title h2,
+.criteria-section h2,
+.custom-cta h2,
+.cta-panel h2,
+.detail-intro h1,
+.success-page h1,
+.footer strong,
+.admin-header h1,
+.admin-stats strong,
+.about-editorial blockquote {
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  font-weight: 800;
+  font-stretch: normal;
+}
+
+.city-card h3,
+.route-card h3,
+.timeline-stop h2,
+.story-column h2,
+.tips-list h2,
+.empty-state h2,
+.card-title-row h3,
+.admin-table h2,
+.map-placeholder h2,
+.choice-group h2 {
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+  font-stretch: normal;
+}
+
+.cover-subtitle,
+.page-hero p,
+.feature-note p,
+.criteria-copy p,
+.place-card-copy p,
+.route-card p,
+.story-column p,
+.story-column li,
+.tips-list p,
+.footer p,
+.about-editorial p,
+.nearby-list span {
+  letter-spacing: normal;
+  line-height: 1.6;
+}
+
+@media (max-width: 1120px) {
+  .cover-copy h1,
+  .page-hero h1,
+  .about-cover h1 {
+    font-size: clamp(3.6rem, 10vw, 7.2rem);
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+  }
+}
+
+@media (max-width: 560px) {
+  .cover-copy h1,
+  .page-hero h1,
+  .about-cover h1 {
+    font-size: clamp(2.7rem, 13vw, 4.6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .wordmark span {
+    letter-spacing: -0.015em;
+  }
+
+  .nav-menu {
+    letter-spacing: 0.11em;
   }
 }
 
@@ -1438,6 +1573,25 @@ body {
   .page-hero h1,
   .about-cover h1 {
     font-size: clamp(3.2rem, 16vw, 5.2rem);
-    letter-spacing: -.045em;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Last-mile mobile title correction: keep this after all legacy responsive rules. */
+.mini-tags span,
+.result-explainer span,
+.visual-block span,
+.visual-block small {
+  letter-spacing: 0.14em;
+  line-height: 1.25;
+}
+
+@media (max-width: 560px) {
+  .cover-copy h1,
+  .page-hero h1,
+  .about-cover h1 {
+    font-size: clamp(2.7rem, 13vw, 4.6rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
   }
 }
