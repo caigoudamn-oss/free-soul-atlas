@@ -959,6 +959,99 @@ button { cursor: pointer; }
 .admin-form {
   padding-top: 48px;
 }
+.structured-form {
+  display: block;
+}
+.form-intro {
+  max-width: 720px;
+  margin: 0 0 30px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.65;
+}
+.form-section {
+  display: block;
+  margin: 0 0 28px;
+  padding: 0;
+  border-top: 1px solid var(--ink);
+}
+.form-section.required-section {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 28px;
+}
+.form-section header,
+.form-section summary {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 28px;
+  align-items: start;
+  padding: 26px 0;
+}
+.form-section summary {
+  cursor: pointer;
+  list-style: none;
+}
+.form-section summary::-webkit-details-marker {
+  display: none;
+}
+.form-section summary::after {
+  content: '+';
+  justify-self: end;
+  grid-column: 2;
+  grid-row: 1;
+  font-family: var(--serif);
+  font-size: 32px;
+  line-height: .8;
+}
+.form-section[open] summary::after {
+  content: '–';
+}
+.form-section header > span,
+.form-section summary > span {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.form-section h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+.form-section p,
+.form-section summary small {
+  display: block;
+  max-width: 760px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.form-section-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px 42px;
+  padding: 0 0 34px;
+}
+.field-required {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 6px;
+  border: 1px solid var(--ink);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  vertical-align: middle;
+}
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding-top: 18px;
+}
 .success-page {
   min-height: calc(100vh - 180px);
   width: min(980px, calc(100% - 72px));
@@ -1593,5 +1686,24 @@ body {
     font-size: clamp(2.7rem, 13vw, 4.6rem);
     line-height: 1;
     letter-spacing: -0.02em;
+  }
+}
+
+@media (max-width: 760px) {
+  .form-section header,
+  .form-section summary,
+  .form-section-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .form-section summary::after {
+    grid-column: 1;
+    justify-self: start;
+    margin-top: 8px;
+  }
+
+  .form-actions {
+    display: grid;
   }
 }
