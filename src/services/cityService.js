@@ -3,6 +3,12 @@ import { normalizeCity } from './formatters'
 
 const cityColumns = '*'
 
+function handleSupabaseError(context, error) {
+  if (!error) return
+  console.error(`${context}:`, error)
+  throw error
+}
+
 export async function getPublishedCities() {
   if (!hasSupabaseConfig) return []
   const { data, error } = await requireSupabase()
@@ -12,8 +18,8 @@ export async function getPublishedCities() {
     .order('sort_order', { ascending: true })
     .order('created_at', { ascending: false })
 
-  if (error) throw error
-  return data.map(normalizeCity)
+  handleSupabaseError('Failed to load published cities', error)
+  return (data || []).map(normalizeCity)
 }
 
 export async function getPublishedCityBySlug(slug) {
@@ -25,7 +31,7 @@ export async function getPublishedCityBySlug(slug) {
     .eq('status', 'published')
     .maybeSingle()
 
-  if (error) throw error
+  handleSupabaseError('Failed to load published city', error)
   return normalizeCity(data)
 }
 
@@ -36,8 +42,8 @@ export async function getAdminCities() {
     .order('sort_order', { ascending: true })
     .order('created_at', { ascending: false })
 
-  if (error) throw error
-  return data.map(normalizeCity)
+  handleSupabaseError('Failed to load admin cities', error)
+  return (data || []).map(normalizeCity)
 }
 
 export async function getAdminCity(id) {
@@ -47,7 +53,7 @@ export async function getAdminCity(id) {
     .eq('id', id)
     .maybeSingle()
 
-  if (error) throw error
+  handleSupabaseError('Failed to load admin city', error)
   return normalizeCity(data)
 }
 
@@ -58,11 +64,11 @@ export async function saveCity(payload, id) {
     : supabase.from('cities').insert(payload).select(cityColumns).single()
 
   const { data, error } = await query
-  if (error) throw error
+  handleSupabaseError('Failed to save city', error)
   return normalizeCity(data)
 }
 
 export async function deleteCity(id) {
   const { error } = await requireSupabase().from('cities').delete().eq('id', id)
-  if (error) throw error
+  handleSupabaseError('Failed to delete city', error)
 }

@@ -3,6 +3,12 @@ import { normalizePlace } from './formatters'
 
 const placeSelect = '*, cities!inner(id, slug, name, status)'
 
+function handleSupabaseError(context, error) {
+  if (!error) return
+  console.error(`${context}:`, error)
+  throw error
+}
+
 export async function getFeaturedPublishedPlaces(limit = 6) {
   if (!hasSupabaseConfig) return []
   const { data, error } = await requireSupabase()
@@ -15,8 +21,8 @@ export async function getFeaturedPublishedPlaces(limit = 6) {
     .order('created_at', { ascending: false })
     .limit(limit)
 
-  if (error) throw error
-  return data.map(normalizePlace)
+  handleSupabaseError('Failed to load featured published places', error)
+  return (data || []).map(normalizePlace)
 }
 
 export async function getPublishedPlacesByCity(cityId) {
@@ -30,8 +36,8 @@ export async function getPublishedPlacesByCity(cityId) {
     .order('sort_order', { ascending: true })
     .order('created_at', { ascending: false })
 
-  if (error) throw error
-  return data.map(normalizePlace)
+  handleSupabaseError('Failed to load published places by city', error)
+  return (data || []).map(normalizePlace)
 }
 
 export async function getPublishedPlaceByCityAndSlug(citySlug, placeSlug) {
@@ -45,7 +51,7 @@ export async function getPublishedPlaceByCityAndSlug(citySlug, placeSlug) {
     .eq('cities.status', 'published')
     .maybeSingle()
 
-  if (error) throw error
+  handleSupabaseError('Failed to load published place', error)
   return normalizePlace(data)
 }
 
@@ -55,8 +61,8 @@ export async function getAdminPlaces() {
     .select('*, cities(id, slug, name, status)')
     .order('created_at', { ascending: false })
 
-  if (error) throw error
-  return data.map(normalizePlace)
+  handleSupabaseError('Failed to load admin places', error)
+  return (data || []).map(normalizePlace)
 }
 
 export async function getAdminPlace(id) {
@@ -66,7 +72,7 @@ export async function getAdminPlace(id) {
     .eq('id', id)
     .maybeSingle()
 
-  if (error) throw error
+  handleSupabaseError('Failed to load admin place', error)
   return normalizePlace(data)
 }
 
@@ -77,11 +83,11 @@ export async function savePlace(payload, id) {
     : supabase.from('places').insert(payload).select('*, cities(id, slug, name, status)').single()
 
   const { data, error } = await query
-  if (error) throw error
+  handleSupabaseError('Failed to save place', error)
   return normalizePlace(data)
 }
 
 export async function deletePlace(id) {
   const { error } = await requireSupabase().from('places').delete().eq('id', id)
-  if (error) throw error
+  handleSupabaseError('Failed to delete place', error)
 }
