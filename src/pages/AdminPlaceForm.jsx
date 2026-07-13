@@ -5,6 +5,7 @@ import { getAdminCities } from '../services/cityService'
 import { getAdminPlace, savePlace } from '../services/placeService'
 import { listToText, slugify, toArray } from '../services/formatters'
 import { uploadPlaceImage } from '../services/storageService'
+import { getAmapConfigMessage, hasAmapConfig, searchAmapPlaces } from '../services/mapService'
 
 const initialForm = {
   city_id: '',
@@ -24,6 +25,14 @@ const initialForm = {
   payment_note: '',
   reservation_note: '',
   map_link: '',
+  latitude: '',
+  longitude: '',
+  map_provider: 'amap',
+  map_place_id: '',
+  map_name: '',
+  map_address: '',
+  map_city: '',
+  map_district: '',
   mood_tags: '',
   free_soul_tags: '',
   best_for: '',
@@ -70,6 +79,14 @@ function placeToForm(place) {
     payment_note: place.payment_note || place.paymentNote || '',
     reservation_note: place.reservation_note || place.reservationNote || '',
     map_link: place.map_link || place.mapLink || '',
+    latitude: place.latitude ?? '',
+    longitude: place.longitude ?? '',
+    map_provider: place.map_provider || place.mapProvider || 'amap',
+    map_place_id: place.map_place_id || place.mapPlaceId || '',
+    map_name: place.map_name || place.mapName || '',
+    map_address: place.map_address || place.mapAddress || '',
+    map_city: place.map_city || place.mapCity || '',
+    map_district: place.map_district || place.mapDistrict || '',
     mood_tags: listToText(place.mood_tags || place.moodTags),
     free_soul_tags: listToText(place.free_soul_tags || place.freeSoulTags),
     best_for: listToText(place.best_for || place.bestFor),
@@ -123,6 +140,10 @@ export default function AdminPlaceForm() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [mapQuery, setMapQuery] = useState('')
+  const [mapResults, setMapResults] = useState([])
+  const [mapSearching, setMapSearching] = useState(false)
+  const [mapMessage, setMapMessage] = useState(getAmapConfigMessage())
 
   useEffect(() => {
     async function load() {
@@ -151,6 +172,56 @@ export default function AdminPlaceForm() {
     })
   }
 
+  const selectedCity = cities.find((city) => city.id === form.city_id)
+
+  async function searchMap(event) {
+    event.preventDefault()
+    setMapMessage('')
+    setMapResults([])
+
+    if (!hasAmapConfig) {
+      setMapMessage(getAmapConfigMessage())
+      return
+    }
+
+    if (!mapQuery.trim()) {
+      setMapMessage('Please enter a place name, address, or keyword.\n请输入店名、地址或关键词。')
+      return
+    }
+
+    setMapSearching(true)
+    try {
+      const results = await searchAmapPlaces(mapQuery, selectedCity?.name || '')
+      setMapResults(results)
+      if (results.length === 0) {
+        setMapMessage('No map result found. You can fill address manually.\n没有找到地图结果，你仍然可以手动填写地址。')
+      }
+    } catch (searchError) {
+      setMapMessage(`${searchError.message}\n地图搜索失败。你仍然可以手动填写地址。`)
+    } finally {
+      setMapSearching(false)
+    }
+  }
+
+  function chooseMapPlace(place) {
+    setForm((current) => ({
+      ...current,
+      name: current.name || place.name,
+      address: place.address || current.address,
+      area: place.district || current.area,
+      latitude: place.latitude ?? current.latitude,
+      longitude: place.longitude ?? current.longitude,
+      map_link: place.map_link || current.map_link,
+      map_provider: place.map_provider || 'amap',
+      map_place_id: place.map_place_id,
+      map_name: place.map_name,
+      map_address: place.map_address,
+      map_city: place.map_city,
+      map_district: place.map_district,
+    }))
+    setMapMessage('')
+  }
+
   function buildPayload(extra = {}) {
     return {
       city_id: form.city_id || null,
@@ -170,6 +241,14 @@ export default function AdminPlaceForm() {
       payment_note: form.payment_note,
       reservation_note: form.reservation_note,
       map_link: form.map_link,
+      latitude: form.latitude === '' ? null : Number(form.latitude),
+      longitude: form.longitude === '' ? null : Number(form.longitude),
+      map_provider: form.map_provider || 'amap',
+      map_place_id: form.map_place_id,
+      map_name: form.map_name,
+      map_address: form.map_address,
+      map_city: form.map_city,
+      map_district: form.map_district,
       mood_tags: toArray(form.mood_tags),
       free_soul_tags: toArray(form.free_soul_tags),
       best_for: toArray(form.best_for),
@@ -241,6 +320,44 @@ export default function AdminPlaceForm() {
               <label>{requiredLabel('Area')}<input value={form.area} onChange={(event) => update('area', event.target.value)} placeholder="Zhongshan / Xigang / Shahekou" /><span className="field-help">城市区域或街区名称，方便前台展示位置线索。</span></label>
               <label className="wide">{requiredLabel('Short description')}<textarea value={form.short_description} onChange={(event) => update('short_description', event.target.value)} placeholder="A quiet record room for people who still listen slowly." /><span className="field-help">一句话介绍，前台卡片会显示。不要写太长。</span></label>
               <label className="wide">{requiredLabel('Why soulful')}<textarea value={form.why_soulful} onChange={(event) => update('why_soulful', event.target.value)} placeholder="What makes this place worth keeping in the atlas?" /><span className="field-help">为什么值得收录。写真实的气质、细节和原因，不要写普通广告文案。</span></label>
+            </div>
+          </section>
+
+          <section className="form-section map-location-section">
+            <header>
+              <span>Map</span>
+              <div>
+                <h2>Map Location / 地图位置</h2>
+                <p>Search AMap by place name, address, or keyword. Choose a result to fill address and coordinates automatically.</p>
+              </div>
+            </header>
+            <div className="map-search-panel">
+              {!hasAmapConfig && <p className="form-note map-warning">{getAmapConfigMessage()}</p>}
+              <label className="wide">Search place on AMap / 搜索高德地点
+                <input value={mapQuery} onChange={(event) => setMapQuery(event.target.value)} placeholder="店名、地址或关键词，例如 大连 咖啡 书店" />
+                <span className="field-help">建议先选择城市，再搜索店名或地址。搜索不到也可以继续手动填写 address / map link。</span>
+              </label>
+              <button className="button light" type="button" onClick={searchMap} disabled={mapSearching || !hasAmapConfig}>{mapSearching ? 'Searching...' : 'Search AMap'}</button>
+              {mapMessage && <p className="form-note map-message">{mapMessage}</p>}
+              {mapResults.length > 0 && (
+                <div className="map-result-list">
+                  {mapResults.map((place) => (
+                    <button type="button" key={`${place.provider}-${place.id}-${place.longitude}-${place.latitude}`} onClick={() => chooseMapPlace(place)}>
+                      <strong>{place.name}</strong>
+                      <span>{place.address || 'No address'} · {place.district || place.city || 'Unknown district'}</span>
+                      {place.longitude && place.latitude && <small>{place.latitude}, {place.longitude}</small>}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {(form.map_place_id || form.latitude || form.longitude || form.map_address) && (
+                <div className="selected-map-place">
+                  <span>Selected Map Location / 已选择地图位置</span>
+                  <strong>{form.map_name || form.name || 'Unnamed place'}</strong>
+                  <p>{form.map_address || form.address || 'No address yet'}</p>
+                  <p>{form.map_district || form.area || 'No district'} · {form.latitude || '—'} / {form.longitude || '—'}</p>
+                </div>
+              )}
             </div>
           </section>
 
