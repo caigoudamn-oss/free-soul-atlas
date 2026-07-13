@@ -52,12 +52,36 @@ const initialForm = {
 const publishedRequiredFields = [
   ['city_id', 'City'],
   ['name', 'Name'],
-  ['slug', 'Slug'],
   ['type', 'Type'],
   ['area', 'Area'],
   ['short_description', 'Short description'],
   ['why_soulful', 'Why soulful'],
   ['status', 'Status'],
+]
+
+const placeTypeOptions = [
+  'cafe',
+  'bar',
+  'record store',
+  'vintage',
+  'bookstore',
+  'gallery',
+  'restaurant',
+  'livehouse',
+  'studio',
+  'shop',
+  'street spot',
+  'other',
+]
+
+const dalianAreaOptions = [
+  'Zhongshan / 中山',
+  'Xigang / 西岗',
+  'Shahekou / 沙河口',
+  'Ganjingzi / 甘井子',
+  'High-tech Zone / 高新区',
+  'Lushunkou / 旅顺口',
+  'Kaifaqu / 开发区',
 ]
 
 function placeToForm(place) {
@@ -131,6 +155,18 @@ function missingPublishedFields(form) {
     .map(([, label]) => label)
 }
 
+function statusActionLabel(status, editing) {
+  if (editing) return 'Save Changes / 保存修改'
+  if (status === 'published') return 'Publish / 发布'
+  return 'Save Draft / 保存草稿'
+}
+
+function successMessage(status, editing) {
+  if (editing) return 'Changes saved.\n修改已保存。'
+  if (status === 'published') return 'Published successfully.\n已发布。'
+  return 'Saved as draft.\n草稿已保存。'
+}
+
 export default function AdminPlaceForm() {
   const { id } = useParams()
   const editing = Boolean(id)
@@ -140,6 +176,9 @@ export default function AdminPlaceForm() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [slugTouched, setSlugTouched] = useState(false)
+  const [customType, setCustomType] = useState('')
+  const [saveFeedback, setSaveFeedback] = useState(null)
   const [mapQuery, setMapQuery] = useState('')
   const [mapResults, setMapResults] = useState([])
   const [mapSearching, setMapSearching] = useState(false)
@@ -153,7 +192,12 @@ export default function AdminPlaceForm() {
         if (!editing && cityData[0]) setForm((current) => ({ ...current, city_id: cityData[0].id }))
         if (editing) {
           const place = await getAdminPlace(id)
-          if (place) setForm(placeToForm(place))
+          if (place) {
+            const nextForm = placeToForm(place)
+            setForm(nextForm)
+            setSlugTouched(Boolean(nextForm.slug))
+            if (nextForm.type && !placeTypeOptions.includes(nextForm.type)) setCustomType(nextForm.type)
+          }
         }
       } catch (loadError) {
         setError(loadError.message)
@@ -167,12 +211,35 @@ export default function AdminPlaceForm() {
   function update(field, value) {
     setForm((current) => {
       const next = { ...current, [field]: value }
-      if (field === 'name' && !editing && !current.slug) next.slug = slugify(value)
+      if (field === 'name' && !slugTouched) next.slug = slugify(value)
       return next
     })
   }
 
+  function updateSlug(value) {
+    setSlugTouched(true)
+    update('slug', slugify(value))
+  }
+
+  function updateType(value) {
+    if (value === 'other') {
+      setCustomType('')
+      update('type', '')
+      return
+    }
+    setCustomType('')
+    update('type', value)
+  }
+
+  function updateCustomType(value) {
+    setCustomType(value)
+    update('type', value)
+  }
+
   const selectedCity = cities.find((city) => city.id === form.city_id)
+  const placeSlug = form.slug || slugify(form.name)
+  const placeUrlPreview = `/cities/${selectedCity?.slug || '{citySlug}'}/places/${placeSlug || '{placeSlug}'}`
+  const typeSelectValue = placeTypeOptions.includes(form.type) ? form.type : form.type ? 'other' : ''
 
   async function searchMap(event) {
     event.preventDefault()
@@ -207,6 +274,7 @@ export default function AdminPlaceForm() {
     setForm((current) => ({
       ...current,
       name: current.name || place.name,
+      slug: current.slug || (!slugTouched && !current.name ? slugify(place.name) : current.slug),
       address: place.address || current.address,
       area: place.district || current.area,
       latitude: place.latitude ?? current.latitude,
@@ -225,7 +293,7 @@ export default function AdminPlaceForm() {
   function buildPayload(extra = {}) {
     return {
       city_id: form.city_id || null,
-      slug: form.slug,
+      slug: form.slug || slugify(form.name),
       name: form.name,
       type: form.type,
       area: form.area,
@@ -270,6 +338,14 @@ export default function AdminPlaceForm() {
   async function submit(event) {
     event.preventDefault()
     setError('')
+    setSaveFeedback(null)
+
+    const generatedSlug = form.slug || slugify(form.name)
+
+    if (form.status === 'published' && !generatedSlug) {
+      setError('The system could not generate a URL slug. Please edit the name or open Advanced URL Settings and enter one manually.\n系统没有成功生成网址短链接，请修改名称或打开高级设置手动填写。')
+      return
+    }
 
     const missing = missingPublishedFields(form)
     if (missing.length > 0) {
@@ -279,16 +355,23 @@ export default function AdminPlaceForm() {
 
     setSaving(true)
     try {
-      let saved = await savePlace(buildPayload(), id)
+      let saved = await savePlace(buildPayload({ slug: generatedSlug }), id)
       if (file) {
         const uploaded = await uploadPlaceImage(file, `places/${saved.id}`)
         saved = await savePlace(buildPayload({
+          slug: generatedSlug,
           image_url: uploaded.url,
           image_path: uploaded.path,
           image_alt: form.image_alt || form.name,
         }), saved.id)
       }
-      window.location.href = '/admin/places'
+      setForm(placeToForm(saved))
+      setSlugTouched(Boolean(saved.slug))
+      setFile(null)
+      setSaveFeedback({
+        message: successMessage(saved.status, editing),
+        record: saved,
+      })
     } catch (saveError) {
       setError(saveError.message)
     } finally {
@@ -302,6 +385,18 @@ export default function AdminPlaceForm() {
         <form className="editorial-form admin-form structured-form" onSubmit={submit} noValidate>
           <p className="form-intro">Start with the required fields. Optional sections can stay empty and be completed later.<br />先填必填项就可以保存。可选信息可以以后慢慢补。</p>
           {error && <p className="form-error">{error}</p>}
+          {saveFeedback && (
+            <section className="save-feedback">
+              <p>{saveFeedback.message}</p>
+              <div>
+                <Link className="button light" to="/admin/places">Back to places / 返回地点列表</Link>
+                {saveFeedback.record?.id && <Link className="button light" to={`/admin/places/${saveFeedback.record.id}/edit`}>Continue editing / 继续编辑</Link>}
+                {saveFeedback.record?.status === 'published' && selectedCity?.slug && saveFeedback.record?.slug && (
+                  <Link className="button dark" to={`/cities/${selectedCity.slug}/places/${saveFeedback.record.slug}`}>View place / 查看前台页面</Link>
+                )}
+              </div>
+            </section>
+          )}
 
           <section className="form-section required-section">
             <header>
@@ -314,14 +409,29 @@ export default function AdminPlaceForm() {
             <div className="form-section-grid">
               <label>{requiredLabel('City')}<select value={form.city_id} onChange={(event) => update('city_id', event.target.value)}><option value="">Choose city</option>{cities.map((city) => <option key={city.id} value={city.id}>{city.name}</option>)}</select><span className="field-help">选择这个地点所属的城市专区。发布前必须选择城市。</span></label>
               <label>{requiredLabel('Status')}<select value={form.status} onChange={(event) => update('status', event.target.value)}><option>draft</option><option>published</option></select><span className="field-help">draft 不显示到前台；published 会显示到前台。</span></label>
-              <label>{requiredLabel('Name')}<input value={form.name} onChange={(event) => update('name', event.target.value)} placeholder="Example: Wave Records" /><span className="field-help">地点名称，建议使用真实店名或空间名称。</span></label>
-              <label>{requiredLabel('Slug')}<input value={form.slug} onChange={(event) => update('slug', slugify(event.target.value))} placeholder="wave-records" /><span className="field-help">网址短链接，只能用英文小写、数字和横杠。</span></label>
-              <label>{requiredLabel('Type')}<input value={form.type} onChange={(event) => update('type', event.target.value)} placeholder="cafe / bar / record store / vintage" /><span className="field-help">地点类型，例如 cafe / bar / record store / vintage。</span></label>
-              <label>{requiredLabel('Area')}<input value={form.area} onChange={(event) => update('area', event.target.value)} placeholder="Zhongshan / Xigang / Shahekou" /><span className="field-help">城市区域或街区名称，方便前台展示位置线索。</span></label>
+              <label>{requiredLabel('Name')}<input value={form.name} onChange={(event) => update('name', event.target.value)} placeholder="Example: Wave Records" /><span className="field-help">地点名称，系统会自动生成网址短链接。</span></label>
+              <label>{requiredLabel('Type')}<select value={typeSelectValue} onChange={(event) => updateType(event.target.value)}><option value="">Choose type</option>{placeTypeOptions.map((type) => <option key={type} value={type}>{type}</option>)}</select><span className="field-help">选择最接近的地点类型；如果没有合适的，选择 other 后手动填写。</span></label>
+              {typeSelectValue === 'other' && <label>Custom type<input value={customType} onChange={(event) => updateCustomType(event.target.value)} placeholder="listening room / tattoo studio" /><span className="field-help">自定义类型会保存为这个地点的 type。</span></label>}
+              <label className="wide">{requiredLabel('Area')}<div className="quick-options">{dalianAreaOptions.map((area) => <button type="button" key={area} onClick={() => update('area', area)} className={form.area === area ? 'active' : ''}>{area}</button>)}</div><input value={form.area} onChange={(event) => update('area', event.target.value)} placeholder="Choose above or type manually" /><span className="field-help">可以点击常用区域，也可以手动输入其他街区。</span></label>
               <label className="wide">{requiredLabel('Short description')}<textarea value={form.short_description} onChange={(event) => update('short_description', event.target.value)} placeholder="A quiet record room for people who still listen slowly." /><span className="field-help">一句话介绍，前台卡片会显示。不要写太长。</span></label>
               <label className="wide">{requiredLabel('Why soulful')}<textarea value={form.why_soulful} onChange={(event) => update('why_soulful', event.target.value)} placeholder="What makes this place worth keeping in the atlas?" /><span className="field-help">为什么值得收录。写真实的气质、细节和原因，不要写普通广告文案。</span></label>
             </div>
           </section>
+
+          <details className="form-section">
+            <summary>
+              <span>Advanced URL Settings / 高级网址设置</span>
+              <small>Most creators can ignore this. The URL slug is generated from the place name.</small>
+            </summary>
+            <div className="form-section-grid">
+              <label className="wide">URL preview
+                <input value={placeUrlPreview} readOnly />
+                <span className="field-help">前台访问路径预览。系统会根据城市和地点名称自动生成。</span>
+              </label>
+              <label className="wide">Slug<input value={form.slug} onChange={(event) => updateSlug(event.target.value)} placeholder="wave-records" /><span className="field-help">默认自动生成。只有需要自定义 URL 时才修改。</span></label>
+              {slugTouched && <p className="form-note">Custom URL slug / 已手动自定义网址短链接</p>}
+            </div>
+          </details>
 
           <section className="form-section map-location-section">
             <header>
@@ -400,7 +510,7 @@ export default function AdminPlaceForm() {
           ))}
 
           <div className="form-actions">
-            <button className="button dark" type="submit" disabled={saving}>{saving ? 'Saving...' : 'Save Place'}</button>
+            <button className="button dark" type="submit" disabled={saving}>{saving ? 'Saving...' : statusActionLabel(form.status, editing)}</button>
             <Link className="button light" to="/admin/places">Cancel</Link>
           </div>
         </form>

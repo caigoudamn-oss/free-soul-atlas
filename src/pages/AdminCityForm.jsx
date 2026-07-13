@@ -23,7 +23,6 @@ const initialForm = {
 
 const publishedRequiredFields = [
   ['name', 'Name'],
-  ['slug', 'Slug'],
   ['country', 'Country'],
   ['status', 'Status'],
   ['subtitle', 'Subtitle'],
@@ -44,6 +43,18 @@ function missingPublishedFields(form) {
     .map(([, label]) => label)
 }
 
+function statusActionLabel(status, editing) {
+  if (editing) return 'Save Changes / 保存修改'
+  if (status === 'published') return 'Publish / 发布'
+  return 'Save Draft / 保存草稿'
+}
+
+function successMessage(status, editing) {
+  if (editing) return 'Changes saved.\n修改已保存。'
+  if (status === 'published') return 'Published successfully.\n已发布。'
+  return 'Saved as draft.\n草稿已保存。'
+}
+
 export default function AdminCityForm() {
   const { id } = useParams()
   const editing = Boolean(id)
@@ -52,6 +63,8 @@ export default function AdminCityForm() {
   const [loading, setLoading] = useState(editing)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
+  const [slugTouched, setSlugTouched] = useState(false)
+  const [saveFeedback, setSaveFeedback] = useState(null)
 
   useEffect(() => {
     if (!editing) return
@@ -59,7 +72,7 @@ export default function AdminCityForm() {
       try {
         const city = await getAdminCity(id)
         if (city) {
-          setForm({
+          const nextForm = {
             slug: city.slug || '',
             name: city.name || '',
             country: city.country || '',
@@ -73,7 +86,9 @@ export default function AdminCityForm() {
             cover_image_url: city.cover_image_url || city.coverImageUrl || '',
             cover_image_path: city.cover_image_path || city.coverImagePath || '',
             cover_image_alt: city.cover_image_alt || city.coverImageAlt || '',
-          })
+          }
+          setForm(nextForm)
+          setSlugTouched(Boolean(nextForm.slug))
         }
       } catch (loadError) {
         setError(loadError.message)
@@ -87,14 +102,30 @@ export default function AdminCityForm() {
   function update(field, value) {
     setForm((current) => {
       const next = { ...current, [field]: value }
-      if (field === 'name' && !editing && !current.slug) next.slug = slugify(value)
+      if (field === 'name' && !slugTouched) next.slug = slugify(value)
       return next
     })
   }
 
+  function updateSlug(value) {
+    setSlugTouched(true)
+    update('slug', slugify(value))
+  }
+
+  const citySlug = form.slug || slugify(form.name)
+  const cityUrlPreview = `/cities/${citySlug || '{citySlug}'}`
+
   async function submit(event) {
     event.preventDefault()
     setError('')
+    setSaveFeedback(null)
+
+    const generatedSlug = form.slug || slugify(form.name)
+
+    if (form.status === 'published' && !generatedSlug) {
+      setError('The system could not generate a URL slug. Please edit the city name or open Advanced URL Settings and enter one manually.\n系统没有成功生成网址短链接，请修改城市名称或打开高级设置手动填写。')
+      return
+    }
 
     const missing = missingPublishedFields(form)
     if (missing.length > 0) {
@@ -106,6 +137,7 @@ export default function AdminCityForm() {
     try {
       const payload = {
         ...form,
+        slug: generatedSlug,
         sort_order: Number(form.sort_order || 0),
       }
       let saved = await saveCity(payload, id)
@@ -117,7 +149,27 @@ export default function AdminCityForm() {
           cover_image_alt: form.cover_image_alt || form.name,
         }, saved.id)
       }
-      window.location.href = '/admin/cities'
+      setForm({
+        slug: saved.slug || '',
+        name: saved.name || '',
+        country: saved.country || '',
+        region: saved.region || '',
+        subtitle: saved.subtitle || '',
+        description: saved.description || '',
+        editorial_note: saved.editorial_note || saved.editorialNote || '',
+        status: saved.status || 'draft',
+        sort_order: saved.sort_order ?? saved.sortOrder ?? 0,
+        is_featured: Boolean(saved.is_featured ?? saved.isFeatured),
+        cover_image_url: saved.cover_image_url || saved.coverImageUrl || '',
+        cover_image_path: saved.cover_image_path || saved.coverImagePath || '',
+        cover_image_alt: saved.cover_image_alt || saved.coverImageAlt || '',
+      })
+      setSlugTouched(Boolean(saved.slug))
+      setFile(null)
+      setSaveFeedback({
+        message: successMessage(saved.status, editing),
+        record: saved,
+      })
     } catch (saveError) {
       setError(saveError.message)
     } finally {
@@ -131,6 +183,18 @@ export default function AdminCityForm() {
         <form className="editorial-form admin-form structured-form" onSubmit={submit} noValidate>
           <p className="form-intro">Create a city edition first, then add places under that city.<br />先创建城市专区，再在这个城市下面添加地点。</p>
           {error && <p className="form-error">{error}</p>}
+          {saveFeedback && (
+            <section className="save-feedback">
+              <p>{saveFeedback.message}</p>
+              <div>
+                <Link className="button light" to="/admin/cities">Back to cities / 返回城市列表</Link>
+                {saveFeedback.record?.id && <Link className="button light" to={`/admin/cities/${saveFeedback.record.id}/edit`}>Continue editing / 继续编辑</Link>}
+                {saveFeedback.record?.status === 'published' && saveFeedback.record?.slug && (
+                  <Link className="button dark" to={`/cities/${saveFeedback.record.slug}`}>View city / 查看前台页面</Link>
+                )}
+              </div>
+            </section>
+          )}
 
           <section className="form-section required-section">
             <header>
@@ -142,12 +206,26 @@ export default function AdminCityForm() {
             </header>
             <div className="form-section-grid">
               <label>{requiredLabel('Name')}<input value={form.name} onChange={(event) => update('name', event.target.value)} placeholder="Dalian" /><span className="field-help">城市显示名称，例如 Dalian。</span></label>
-              <label>{requiredLabel('Slug')}<input value={form.slug} onChange={(event) => update('slug', slugify(event.target.value))} placeholder="dalian" /><span className="field-help">城市网址短链接，只能英文小写、数字和横杠。建议用城市英文名。</span></label>
               <label>{requiredLabel('Country')}<input value={form.country} onChange={(event) => update('country', event.target.value)} placeholder="China" /><span className="field-help">国家名称，用于城市档案展示。</span></label>
               <label>{requiredLabel('Status')}<select value={form.status} onChange={(event) => update('status', event.target.value)}><option>draft</option><option>published</option><option>coming_soon</option></select><span className="field-help">draft 不显示；published 前台可访问；coming_soon 可作为即将开放城市。</span></label>
               <label className="wide">{requiredLabel('Subtitle')}<input value={form.subtitle} onChange={(event) => update('subtitle', event.target.value)} placeholder="A coastal city for quiet rooms, independent shops, and soulful corners." /><span className="field-help">一句话城市气质说明，会用于城市卡片和城市页开头。</span></label>
             </div>
           </section>
+
+          <details className="form-section">
+            <summary>
+              <span>Advanced URL Settings / 高级网址设置</span>
+              <small>Most creators can ignore this. The city URL slug is generated from the city name.</small>
+            </summary>
+            <div className="form-section-grid">
+              <label className="wide">URL preview
+                <input value={cityUrlPreview} readOnly />
+                <span className="field-help">城市前台访问路径预览。系统会根据城市名称自动生成。</span>
+              </label>
+              <label className="wide">Slug<input value={form.slug} onChange={(event) => updateSlug(event.target.value)} placeholder="dalian" /><span className="field-help">默认自动生成。只有需要自定义 URL 时才修改。</span></label>
+              {slugTouched && <p className="form-note">Custom URL slug / 已手动自定义网址短链接</p>}
+            </div>
+          </details>
 
           <details className="form-section">
             <summary>
@@ -167,7 +245,7 @@ export default function AdminCityForm() {
           </details>
 
           <div className="form-actions">
-            <button className="button dark" type="submit" disabled={saving}>{saving ? 'Saving...' : 'Save City'}</button>
+            <button className="button dark" type="submit" disabled={saving}>{saving ? 'Saving...' : statusActionLabel(form.status, editing)}</button>
             <Link className="button light" to="/admin/cities">Cancel</Link>
           </div>
         </form>
