@@ -842,6 +842,7 @@ button { cursor: pointer; }
 .check-label {
   display: flex !important;
   align-items: center;
+  flex-wrap: wrap;
   gap: 12px;
   min-height: 54px;
 }
@@ -849,13 +850,21 @@ button { cursor: pointer; }
   width: auto;
   margin: 0;
 }
+.check-label .field-help {
+  flex: 0 0 100%;
+  margin-top: 0;
+}
 .form-error,
 .form-note {
   grid-column: 1 / -1;
   margin: 0;
   color: var(--muted);
 }
-.form-error { color: #9d1f1f; font-weight: 800; }
+.form-error {
+  color: #9d1f1f;
+  font-weight: 800;
+  white-space: pre-line;
+}
 .admin-header {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -1045,6 +1054,16 @@ button { cursor: pointer; }
   font-weight: 900;
   letter-spacing: .12em;
   vertical-align: middle;
+}
+.field-help {
+  display: block;
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: normal;
+  line-height: 1.55;
+  text-transform: none;
 }
 .form-actions {
   display: flex;
