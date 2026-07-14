@@ -13,6 +13,7 @@ import LocalTips from './pages/LocalTips'
 import CustomPlan from './pages/CustomPlan'
 import About from './pages/About'
 import Recommend from './pages/Recommend'
+import Submit from './pages/Submit'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
 import AdminCities from './pages/AdminCities'
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="/custom-plan" element={<CustomPlan />} />
           <Route path="/about" element={<About />} />
           <Route path="/recommend" element={<Recommend />} />
+          <Route path="/submit" element={<Submit />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/cities" element={<AdminCities />} />

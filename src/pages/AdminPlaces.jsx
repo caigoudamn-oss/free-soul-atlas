@@ -56,7 +56,11 @@ export default function AdminPlaces() {
           {filtered.map((place) => (
             <article key={place.id}>
               <div>
-                <span>{place.status} / {place.cityName || place.city?.name || 'No city'}</span>
+                <div className="admin-badges">
+                  <span>{place.status}</span>
+                  <span>{place.submissionStatus || 'editorial'}</span>
+                  <span>{place.cityName || place.city?.name || 'No city'}</span>
+                </div>
                 <h2>{place.name}</h2>
                 <p>{place.slug} / {place.type || '—'} / {place.area || '—'}</p>
               </div>
