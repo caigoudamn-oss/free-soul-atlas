@@ -17,6 +17,9 @@ const initialForm = {
   location_privacy: 'area_only',
   short_description: '',
   why_soulful: '',
+  raw_note: '',
+  editorial_summary: '',
+  submission_status: 'editorial',
   curator_note: '',
   price_range: '',
   best_time: '',
@@ -95,6 +98,9 @@ function placeToForm(place) {
     location_privacy: place.location_privacy || 'area_only',
     short_description: place.short_description || place.shortDescription || '',
     why_soulful: place.why_soulful || place.whySoulful || '',
+    raw_note: place.raw_note || place.rawNote || '',
+    editorial_summary: place.editorial_summary || place.editorialSummary || '',
+    submission_status: place.submission_status || place.submissionStatus || 'editorial',
     curator_note: place.curator_note || place.curatorNote || '',
     price_range: place.price_range || place.priceRange || '',
     best_time: place.best_time || place.bestTime || '',
@@ -321,6 +327,9 @@ export default function AdminPlaceForm() {
       location_privacy: source.location_privacy,
       short_description: source.short_description,
       why_soulful: source.why_soulful,
+      raw_note: source.raw_note,
+      editorial_summary: source.editorial_summary,
+      submission_status: source.submission_status || 'editorial',
       curator_note: source.curator_note,
       price_range: source.price_range,
       best_time: source.best_time,
@@ -447,7 +456,22 @@ export default function AdminPlaceForm() {
               {typeSelectValue === 'other' && <label>Custom type<input value={customType} onChange={(event) => updateCustomType(event.target.value)} placeholder="listening room / tattoo studio" /><span className="field-help">自定义类型会保存为这个地点的 type。</span></label>}
               <label className="wide">{requiredLabel('Area')}<div className="quick-options">{dalianAreaOptions.map((area) => <button type="button" key={area} onClick={() => update('area', area)} className={form.area === area ? 'active' : ''}>{area}</button>)}</div><input value={form.area} onChange={(event) => update('area', event.target.value)} placeholder="Choose above or type manually" /><span className="field-help">可以点击常用区域，也可以手动输入其他街区。</span></label>
               <label className="wide">{requiredLabel('Short description')}<textarea value={form.short_description} onChange={(event) => update('short_description', event.target.value)} placeholder="A quiet record room for people who still listen slowly." /><span className="field-help">一句话介绍，前台卡片会显示。不要写太长。</span></label>
-              <label className="wide">{requiredLabel('Why soulful')}<textarea value={form.why_soulful} onChange={(event) => update('why_soulful', event.target.value)} placeholder="What makes this place worth keeping in the atlas?" /><span className="field-help">为什么值得收录。写真实的气质、细节和原因，不要写普通广告文案。</span></label>
+              <label className="wide">{requiredLabel('Why soulful')}<textarea value={form.why_soulful} onChange={(event) => update('why_soulful', event.target.value)} placeholder="What makes this place worth keeping in the atlas?" /><span className="field-help">这是前台核心段落。不要直接堆原始感受，尽量写成完整段落。</span></label>
+            </div>
+          </section>
+
+          <section className="form-section required-section">
+            <header>
+              <span>Story</span>
+              <div>
+                <h2>Editorial Content / 编辑内容</h2>
+                <p>Separate rough field notes from the edited public-facing copy.</p>
+              </div>
+            </header>
+            <div className="form-section-grid">
+              <label className="wide">Raw Notes / 原始观察<textarea value={form.raw_note} onChange={(event) => update('raw_note', event.target.value)} placeholder="First impression, friend's recommendation, messy field notes..." /><span className="field-help">这里可以写很随意的第一印象、个人观察、朋友推荐理由，不一定直接显示到前台。</span></label>
+              <label className="wide">Editorial Summary / 编辑摘要<textarea value={form.editorial_summary} onChange={(event) => update('editorial_summary', event.target.value)} placeholder="A calmer edited summary in Free Soul Atlas tone." /><span className="field-help">这里是前台更正式展示的摘要，建议用统一、克制、有编辑感的语言。</span></label>
+              <label>Submission status<select value={form.submission_status} onChange={(event) => update('submission_status', event.target.value)}><option>editorial</option><option>submitted</option><option>reviewed</option></select><span className="field-help">editorial = 管理员编辑内容；submitted = 用户投稿，待整理；reviewed = 已审核整理。</span></label>
             </div>
           </section>
 
