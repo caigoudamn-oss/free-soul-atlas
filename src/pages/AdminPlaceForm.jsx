@@ -173,6 +173,7 @@ export default function AdminPlaceForm() {
   const [cities, setCities] = useState([])
   const [form, setForm] = useState(initialForm)
   const [file, setFile] = useState(null)
+  const [imagePreviewUrl, setImagePreviewUrl] = useState('')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -183,6 +184,16 @@ export default function AdminPlaceForm() {
   const [mapResults, setMapResults] = useState([])
   const [mapSearching, setMapSearching] = useState(false)
   const [mapMessage, setMapMessage] = useState(getAmapConfigMessage())
+
+  useEffect(() => {
+    if (!file) {
+      setImagePreviewUrl('')
+      return undefined
+    }
+    const objectUrl = URL.createObjectURL(file)
+    setImagePreviewUrl(objectUrl)
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [file])
 
   useEffect(() => {
     async function load() {
@@ -234,6 +245,15 @@ export default function AdminPlaceForm() {
   function updateCustomType(value) {
     setCustomType(value)
     update('type', value)
+  }
+
+  function removeImage() {
+    setFile(null)
+    setForm((current) => ({
+      ...current,
+      image_url: '',
+      image_path: '',
+    }))
   }
 
   const selectedCity = cities.find((city) => city.id === form.city_id)
@@ -290,64 +310,64 @@ export default function AdminPlaceForm() {
     setMapMessage('')
   }
 
-  function buildPayload(extra = {}) {
+  function buildPayload(extra = {}, source = form) {
     return {
-      city_id: form.city_id || null,
-      slug: form.slug || slugify(form.name),
-      name: form.name,
-      type: form.type,
-      area: form.area,
-      address: form.address,
-      location_privacy: form.location_privacy,
-      short_description: form.short_description,
-      why_soulful: form.why_soulful,
-      curator_note: form.curator_note,
-      price_range: form.price_range,
-      best_time: form.best_time,
-      foreigner_friendly: form.foreigner_friendly,
-      language_note: form.language_note,
-      payment_note: form.payment_note,
-      reservation_note: form.reservation_note,
-      map_link: form.map_link,
-      latitude: form.latitude === '' ? null : Number(form.latitude),
-      longitude: form.longitude === '' ? null : Number(form.longitude),
-      map_provider: form.map_provider || 'amap',
-      map_place_id: form.map_place_id,
-      map_name: form.map_name,
-      map_address: form.map_address,
-      map_city: form.map_city,
-      map_district: form.map_district,
-      mood_tags: toArray(form.mood_tags),
-      free_soul_tags: toArray(form.free_soul_tags),
-      best_for: toArray(form.best_for),
-      good_for: toArray(form.good_for),
-      not_for: toArray(form.not_for),
-      practical_tips: toArray(form.practical_tips),
-      nearby_spots: toArray(form.nearby_spots),
-      image_url: form.image_url,
-      image_path: form.image_path,
-      image_alt: form.image_alt,
-      visual_tone: form.visual_tone,
-      is_featured: Boolean(form.is_featured),
-      status: form.status,
-      sort_order: Number(form.sort_order || 0),
+      city_id: source.city_id || null,
+      slug: source.slug || slugify(source.name),
+      name: source.name,
+      type: source.type,
+      area: source.area,
+      address: source.address,
+      location_privacy: source.location_privacy,
+      short_description: source.short_description,
+      why_soulful: source.why_soulful,
+      curator_note: source.curator_note,
+      price_range: source.price_range,
+      best_time: source.best_time,
+      foreigner_friendly: source.foreigner_friendly,
+      language_note: source.language_note,
+      payment_note: source.payment_note,
+      reservation_note: source.reservation_note,
+      map_link: source.map_link,
+      latitude: source.latitude === '' ? null : Number(source.latitude),
+      longitude: source.longitude === '' ? null : Number(source.longitude),
+      map_provider: source.map_provider || 'amap',
+      map_place_id: source.map_place_id,
+      map_name: source.map_name,
+      map_address: source.map_address,
+      map_city: source.map_city,
+      map_district: source.map_district,
+      mood_tags: toArray(source.mood_tags),
+      free_soul_tags: toArray(source.free_soul_tags),
+      best_for: toArray(source.best_for),
+      good_for: toArray(source.good_for),
+      not_for: toArray(source.not_for),
+      practical_tips: toArray(source.practical_tips),
+      nearby_spots: toArray(source.nearby_spots),
+      image_url: source.image_url,
+      image_path: source.image_path,
+      image_alt: source.image_alt,
+      visual_tone: source.visual_tone,
+      is_featured: Boolean(source.is_featured),
+      status: source.status,
+      sort_order: Number(source.sort_order || 0),
       ...extra,
     }
   }
 
-  async function submit(event) {
-    event.preventDefault()
+  async function saveWithStatus(nextStatus) {
     setError('')
     setSaveFeedback(null)
 
-    const generatedSlug = form.slug || slugify(form.name)
+    const formToSave = { ...form, status: nextStatus }
+    const generatedSlug = formToSave.slug || slugify(formToSave.name)
 
-    if (form.status === 'published' && !generatedSlug) {
+    if (formToSave.status === 'published' && !generatedSlug) {
       setError('The system could not generate a URL slug. Please edit the name or open Advanced URL Settings and enter one manually.\n系统没有成功生成网址短链接，请修改名称或打开高级设置手动填写。')
       return
     }
 
-    const missing = missingPublishedFields(form)
+    const missing = missingPublishedFields(formToSave)
     if (missing.length > 0) {
       setError(`To publish this place, please complete: ${missing.join(', ')}.\n发布前请补全这些必填项。你也可以先保存为 draft 草稿。`)
       return
@@ -355,15 +375,16 @@ export default function AdminPlaceForm() {
 
     setSaving(true)
     try {
-      let saved = await savePlace(buildPayload({ slug: generatedSlug }), id)
+      let saved = await savePlace(buildPayload({ slug: generatedSlug, status: nextStatus }, formToSave), id)
       if (file) {
         const uploaded = await uploadPlaceImage(file, `places/${saved.id}`)
         saved = await savePlace(buildPayload({
           slug: generatedSlug,
+          status: nextStatus,
           image_url: uploaded.url,
           image_path: uploaded.path,
-          image_alt: form.image_alt || form.name,
-        }), saved.id)
+          image_alt: formToSave.image_alt || formToSave.name,
+        }, formToSave), saved.id)
       }
       setForm(placeToForm(saved))
       setSlugTouched(Boolean(saved.slug))
@@ -379,11 +400,24 @@ export default function AdminPlaceForm() {
     }
   }
 
+  function submit(event) {
+    event.preventDefault()
+    saveWithStatus(form.status)
+  }
+
   return (
     <AdminShell title={editing ? 'Edit Place' : 'New Place'}>
       {loading ? <p>Loading...</p> : (
         <form className="editorial-form admin-form structured-form" onSubmit={submit} noValidate>
           <p className="form-intro">Start with the required fields. Optional sections can stay empty and be completed later.<br />先填必填项就可以保存。可选信息可以以后慢慢补。</p>
+          <div className="status-toolbar">
+            <span>Status</span>
+            <select value={form.status} onChange={(event) => update('status', event.target.value)}>
+              <option>draft</option>
+              <option>published</option>
+            </select>
+            <small>draft = 草稿，不显示到前台；published = 发布，显示到前台。</small>
+          </div>
           {error && <p className="form-error">{error}</p>}
           {saveFeedback && (
             <section className="save-feedback">
@@ -408,7 +442,6 @@ export default function AdminPlaceForm() {
             </header>
             <div className="form-section-grid">
               <label>{requiredLabel('City')}<select value={form.city_id} onChange={(event) => update('city_id', event.target.value)}><option value="">Choose city</option>{cities.map((city) => <option key={city.id} value={city.id}>{city.name}</option>)}</select><span className="field-help">选择这个地点所属的城市专区。发布前必须选择城市。</span></label>
-              <label>{requiredLabel('Status')}<select value={form.status} onChange={(event) => update('status', event.target.value)}><option>draft</option><option>published</option></select><span className="field-help">draft 不显示到前台；published 会显示到前台。</span></label>
               <label>{requiredLabel('Name')}<input value={form.name} onChange={(event) => update('name', event.target.value)} placeholder="Example: Wave Records" /><span className="field-help">地点名称，系统会自动生成网址短链接。</span></label>
               <label>{requiredLabel('Type')}<select value={typeSelectValue} onChange={(event) => updateType(event.target.value)}><option value="">Choose type</option>{placeTypeOptions.map((type) => <option key={type} value={type}>{type}</option>)}</select><span className="field-help">选择最接近的地点类型；如果没有合适的，选择 other 后手动填写。</span></label>
               {typeSelectValue === 'other' && <label>Custom type<input value={customType} onChange={(event) => updateCustomType(event.target.value)} placeholder="listening room / tattoo studio" /><span className="field-help">自定义类型会保存为这个地点的 type。</span></label>}
@@ -442,23 +475,28 @@ export default function AdminPlaceForm() {
               </div>
             </header>
             <div className="map-search-panel">
-              {!hasAmapConfig && <p className="form-note map-warning">{getAmapConfigMessage()}</p>}
-              <label className="wide">Search place on AMap / 搜索高德地点
-                <input value={mapQuery} onChange={(event) => setMapQuery(event.target.value)} placeholder="店名、地址或关键词，例如 大连 咖啡 书店" />
-                <span className="field-help">建议先选择城市，再搜索店名或地址。搜索不到也可以继续手动填写 address / map link。</span>
-              </label>
-              <button className="button light" type="button" onClick={searchMap} disabled={mapSearching || !hasAmapConfig}>{mapSearching ? 'Searching...' : 'Search AMap'}</button>
-              {mapMessage && <p className="form-note map-message">{mapMessage}</p>}
-              {mapResults.length > 0 && (
-                <div className="map-result-list">
-                  {mapResults.map((place) => (
-                    <button type="button" key={`${place.provider}-${place.id}-${place.longitude}-${place.latitude}`} onClick={() => chooseMapPlace(place)}>
-                      <strong>{place.name}</strong>
-                      <span>{place.address || 'No address'} · {place.district || place.city || 'Unknown district'}</span>
-                      {place.longitude && place.latitude && <small>{place.latitude}, {place.longitude}</small>}
-                    </button>
-                  ))}
-                </div>
+              {!hasAmapConfig ? (
+                <p className="form-note map-warning compact">{getAmapConfigMessage()}</p>
+              ) : (
+                <>
+                  <label className="wide">Search place on AMap / 搜索高德地点
+                    <input value={mapQuery} onChange={(event) => setMapQuery(event.target.value)} placeholder="店名、地址或关键词，例如 大连 咖啡 书店" />
+                    <span className="field-help">建议先选择城市，再搜索店名或地址。搜索不到也可以继续手动填写 address / map link。</span>
+                  </label>
+                  <button className="button light" type="button" onClick={searchMap} disabled={mapSearching}>{mapSearching ? 'Searching...' : 'Search AMap'}</button>
+                  {mapMessage && <p className="form-note map-message">{mapMessage}</p>}
+                  {mapResults.length > 0 && (
+                    <div className="map-result-list">
+                      {mapResults.map((place) => (
+                        <button type="button" key={`${place.provider}-${place.id}-${place.longitude}-${place.latitude}`} onClick={() => chooseMapPlace(place)}>
+                          <strong>{place.name}</strong>
+                          <span>{place.address || 'No address'} · {place.district || place.city || 'Unknown district'}</span>
+                          {place.longitude && place.latitude && <small>{place.latitude}, {place.longitude}</small>}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </>
               )}
               {(form.map_place_id || form.latitude || form.longitude || form.map_address) && (
                 <div className="selected-map-place">
@@ -502,16 +540,41 @@ export default function AdminPlaceForm() {
 
           {optionalSection('D. Optional Image / 可选图片', 'Upload an image now, or leave it empty and use the existing placeholder.', (
             <>
-              <label>Image<input type="file" accept="image/*" onChange={(event) => setFile(event.target.files?.[0] || null)} /><span className="field-help">上传地点主图。没有图片也可以保存，前台会继续使用现有视觉占位。</span></label>
+              <div className="image-preview-panel">
+                <span>Current cover image / 当前封面图</span>
+                {(imagePreviewUrl || form.image_url) ? (
+                  <img src={imagePreviewUrl || form.image_url} alt={form.image_alt || form.name || 'Place cover preview'} />
+                ) : (
+                  <div className="image-preview-empty">No cover image yet / 还没有封面图</div>
+                )}
+                <div className="image-actions">
+                  <label className="button light">Replace image / 替换图片<input type="file" accept="image/*" onChange={(event) => setFile(event.target.files?.[0] || null)} /></label>
+                  {(imagePreviewUrl || form.image_url) && <button className="button light" type="button" onClick={removeImage}>Remove image / 移除图片</button>}
+                </div>
+                <p>上传后会立即预览。没有图片也可以保存，前台会继续使用现有视觉占位。</p>
+              </div>
               <label className="wide">Image alt<input value={form.image_alt} onChange={(event) => update('image_alt', event.target.value)} placeholder="Interior corner with records and warm light" /><span className="field-help">图片替代文字，用一句话描述画面，利于可访问性和 SEO。</span></label>
               <label>Visual tone<input value={form.visual_tone} onChange={(event) => update('visual_tone', event.target.value)} placeholder="paper / charcoal / warm" /><span className="field-help">视觉色调标记，可用于以后控制卡片气质；不知道就保留 paper。</span></label>
-              {form.image_url && <p className="form-note">Current image: {form.image_url}</p>}
+              {form.image_url && (
+                <details className="debug-details">
+                  <summary>Advanced / Debug image URL</summary>
+                  <p>{form.image_url}</p>
+                </details>
+              )}
             </>
           ))}
 
-          <div className="form-actions">
-            <button className="button dark" type="submit" disabled={saving}>{saving ? 'Saving...' : statusActionLabel(form.status, editing)}</button>
-            <Link className="button light" to="/admin/places">Cancel</Link>
+          <div className="sticky-save-bar">
+            <div>
+              <span>{editing ? 'Editing place' : 'New place'}</span>
+              {saveFeedback && <p>{saveFeedback.message}</p>}
+              {error && <p className="sticky-error">{error}</p>}
+            </div>
+            <nav>
+              <button className="button light" type="button" disabled={saving} onClick={() => saveWithStatus('draft')}>{saving ? 'Saving...' : 'Save Draft / 保存草稿'}</button>
+              <button className="button dark" type="button" disabled={saving} onClick={() => saveWithStatus('published')}>{saving ? 'Saving...' : 'Publish / 发布'}</button>
+              <Link className="button light" to="/admin/places">Cancel / 取消</Link>
+            </nav>
           </div>
         </form>
       )}
