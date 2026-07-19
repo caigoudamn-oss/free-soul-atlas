@@ -471,7 +471,7 @@ export default function AdminPlaceForm() {
             <div className="form-section-grid">
               <label className="wide">Raw Notes / 原始观察<textarea value={form.raw_note} onChange={(event) => update('raw_note', event.target.value)} placeholder="First impression, friend's recommendation, messy field notes..." /><span className="field-help">这里可以写很随意的第一印象、个人观察、朋友推荐理由，不一定直接显示到前台。</span></label>
               <label className="wide">Editorial Summary / 编辑摘要<textarea value={form.editorial_summary} onChange={(event) => update('editorial_summary', event.target.value)} placeholder="A calmer edited summary in Free Soul Atlas tone." /><span className="field-help">这里是前台更正式展示的摘要，建议用统一、克制、有编辑感的语言。</span></label>
-              <label>Submission status<select value={form.submission_status} onChange={(event) => update('submission_status', event.target.value)}><option>editorial</option><option>submitted</option><option>reviewed</option></select><span className="field-help">editorial = 管理员编辑内容；submitted = 用户投稿，待整理；reviewed = 已审核整理。</span></label>
+              <label>Submission status<select value={form.submission_status} onChange={(event) => update('submission_status', event.target.value)}><option>editorial</option><option>submitted</option><option>reviewed</option><option>rejected</option></select><span className="field-help">editorial = 管理员编辑内容；submitted = 用户投稿，待整理；reviewed = 已审核整理；rejected = 已拒绝。</span></label>
             </div>
           </section>
 

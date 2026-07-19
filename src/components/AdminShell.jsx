@@ -32,9 +32,14 @@ export default function AdminShell({ title, eyebrow = 'Admin', children }) {
           <Link to="/admin">Dashboard</Link>
           <Link to="/admin/cities">Cities</Link>
           <Link to="/admin/places">Places</Link>
+          <Link to="/admin/submissions">Submissions / 投稿审核</Link>
           <button onClick={logout}>Sign out</button>
         </nav>
       </header>
+      <p className="admin-security-note">
+        For public projects, use a strong unique password and avoid sharing admin credentials.
+        公开项目请使用强且唯一的管理员密码，不要共享后台账号。
+      </p>
       {children}
     </div>
   )

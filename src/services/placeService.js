@@ -65,6 +65,18 @@ export async function getAdminPlaces() {
   return (data || []).map(normalizePlace)
 }
 
+export async function getPendingSubmissions() {
+  const { data, error } = await requireSupabase()
+    .from('places')
+    .select('*, cities(id, slug, name, status)')
+    .eq('status', 'draft')
+    .eq('submission_status', 'submitted')
+    .order('created_at', { ascending: false })
+
+  handleSupabaseError('Failed to load pending submissions', error)
+  return (data || []).map(normalizePlace)
+}
+
 export async function getAdminPlace(id) {
   const { data, error } = await requireSupabase()
     .from('places')
@@ -90,4 +102,19 @@ export async function savePlace(payload, id) {
 export async function deletePlace(id) {
   const { error } = await requireSupabase().from('places').delete().eq('id', id)
   handleSupabaseError('Failed to delete place', error)
+}
+
+export async function rejectSubmission(id) {
+  const { data, error } = await requireSupabase()
+    .from('places')
+    .update({
+      status: 'draft',
+      submission_status: 'rejected',
+    })
+    .eq('id', id)
+    .select('*, cities(id, slug, name, status)')
+    .single()
+
+  handleSupabaseError('Failed to reject submission', error)
+  return normalizePlace(data)
 }

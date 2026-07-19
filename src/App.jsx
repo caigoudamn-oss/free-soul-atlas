@@ -20,6 +20,7 @@ import AdminCities from './pages/AdminCities'
 import AdminCityForm from './pages/AdminCityForm'
 import AdminPlaces from './pages/AdminPlaces'
 import AdminPlaceForm from './pages/AdminPlaceForm'
+import AdminSubmissions from './pages/AdminSubmissions'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -58,6 +59,7 @@ export default function App() {
           <Route path="/admin/places" element={<AdminPlaces />} />
           <Route path="/admin/places/new" element={<AdminPlaceForm />} />
           <Route path="/admin/places/:id/edit" element={<AdminPlaceForm />} />
+          <Route path="/admin/submissions" element={<AdminSubmissions />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </main>

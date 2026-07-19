@@ -82,6 +82,7 @@ export async function submitPublicPlace(form, photoFile) {
     editorial_summary: '',
     submission_status: 'submitted',
     status: 'draft',
+    location_privacy: 'area_only',
     is_featured: false,
     image_url: uploadedImage?.url || '',
     image_path: uploadedImage?.path || '',
