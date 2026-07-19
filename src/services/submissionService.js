@@ -1,10 +1,9 @@
 import { requireSupabase } from '../lib/supabase'
-import { slugify } from './formatters'
+import { createSlugCode, generateSlug } from './formatters'
 import { uploadPlaceImage } from './storageService'
 
 function shortCode() {
-  if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID().slice(0, 8)
-  return Math.random().toString(36).slice(2, 10)
+  return createSlugCode(8)
 }
 
 function clean(value) {
@@ -56,10 +55,11 @@ export async function submitPublicPlace(form, photoFile) {
   if (!reason) throw new Error('Please tell us why you recommend it. / 请写下推荐理由。')
 
   const city = await getDalianCity()
-  const baseSlug = slugify(name)
-  if (!baseSlug) {
-    throw new Error('We could not generate a URL slug from this name. Please use at least one English letter or number in the place name.')
-  }
+  const generatedSlug = generateSlug(name, {
+    fallbackPrefix: 'place',
+    suffix: shortCode(),
+    alwaysAppendSuffix: true,
+  })
 
   let uploadedImage = null
   if (photoFile) {
@@ -69,7 +69,7 @@ export async function submitPublicPlace(form, photoFile) {
   const payload = {
     city_id: city.id,
     name,
-    slug: `${baseSlug}-${shortCode()}`,
+    slug: generatedSlug,
     type: selectedType,
     area,
     short_description: buildShortDescription(selectedType, area),

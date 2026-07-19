@@ -3,7 +3,7 @@ import { Link, useParams } from '../lib/router'
 import AdminShell from '../components/AdminShell'
 import { getAdminCities } from '../services/cityService'
 import { getAdminPlace, savePlace } from '../services/placeService'
-import { listToText, slugify, toArray } from '../services/formatters'
+import { generateSlug, listToText, slugify, toArray } from '../services/formatters'
 import { uploadPlaceImage } from '../services/storageService'
 import { getAmapConfigMessage, hasAmapConfig, searchAmapPlaces } from '../services/mapService'
 
@@ -263,7 +263,7 @@ export default function AdminPlaceForm() {
   }
 
   const selectedCity = cities.find((city) => city.id === form.city_id)
-  const placeSlug = form.slug || slugify(form.name)
+  const placeSlug = form.slug || generateSlug(form.name, { fallbackPrefix: 'place' })
   const placeUrlPreview = `/cities/${selectedCity?.slug || '{citySlug}'}/places/${placeSlug || '{placeSlug}'}`
   const typeSelectValue = placeTypeOptions.includes(form.type) ? form.type : form.type ? 'other' : ''
 
@@ -319,7 +319,7 @@ export default function AdminPlaceForm() {
   function buildPayload(extra = {}, source = form) {
     return {
       city_id: source.city_id || null,
-      slug: source.slug || slugify(source.name),
+      slug: source.slug || generateSlug(source.name, { fallbackPrefix: 'place' }),
       name: source.name,
       type: source.type,
       area: source.area,
@@ -369,7 +369,7 @@ export default function AdminPlaceForm() {
     setSaveFeedback(null)
 
     const formToSave = { ...form, status: nextStatus }
-    const generatedSlug = formToSave.slug || slugify(formToSave.name)
+    const generatedSlug = formToSave.slug || generateSlug(formToSave.name, { fallbackPrefix: 'place' })
 
     if (formToSave.status === 'published' && !generatedSlug) {
       setError('The system could not generate a URL slug. Please edit the name or open Advanced URL Settings and enter one manually.\n系统没有成功生成网址短链接，请修改名称或打开高级设置手动填写。')

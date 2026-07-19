@@ -20,6 +20,31 @@ export function slugify(value) {
     .replace(/^-+|-+$/g, '')
 }
 
+export function createSlugCode(length = 8) {
+  const fallback = Math.random().toString(36).slice(2)
+  const code = globalThis.crypto?.randomUUID
+    ? globalThis.crypto.randomUUID().replace(/-/g, '')
+    : fallback
+
+  return code.slice(0, length) || fallback.slice(0, length) || 'x'
+}
+
+export function generateSlug(value, options = {}) {
+  const {
+    fallbackPrefix = 'place',
+    suffix = '',
+    alwaysAppendSuffix = false,
+  } = options
+  const baseSlug = slugify(value) || slugify(fallbackPrefix) || 'place'
+  const safeSuffix = slugify(suffix)
+
+  if (safeSuffix && (alwaysAppendSuffix || !slugify(value))) {
+    return `${baseSlug}-${safeSuffix}`
+  }
+
+  return baseSlug
+}
+
 export function normalizeCity(row) {
   if (!row) return null
   return {

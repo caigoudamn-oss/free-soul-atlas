@@ -75,7 +75,8 @@ export default function Submit() {
       await submitPublicPlace(form, photoFile)
       setSubmitted(true)
     } catch (submitError) {
-      setError(submitError.message || 'Submission failed. Please try again later. / 提交失败，请稍后再试。')
+      console.error('Public submission failed:', submitError)
+      setError('Submission failed. Please try again or use a shorter place name.\n提交失败，请重试，或尝试使用更短的地点名称。')
     } finally {
       setSaving(false)
     }
