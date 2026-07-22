@@ -56,7 +56,7 @@ export default function Home() {
             </p>
             <div className="cover-actions">
               <a className="button dark" href="#cities">Choose a City</a>
-              <Link className="button light" to="/submit">Recommend a place / 推荐地点</Link>
+              <Link className="button light" to="/submit">Contribute / 参与贡献</Link>
               <Link className="button light" to="/local-walks">Local Walks / 本地慢逛</Link>
               <Link className="button light" to="/about">About the Atlas</Link>
               <Link className="button text" to="/admin/login">Admin Login <Icon name="arrowRight" /></Link>
@@ -101,6 +101,22 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      <section className="criteria-section contribution-section">
+        <div>
+          <p className="eyebrow">Help build the Atlas</p>
+          <h2>共同建设这份城市档案</h2>
+        </div>
+        <div className="criteria-copy">
+          <p>
+            Free Soul Atlas is an open, community-built city archive. Recommend places, add local context, share observations, or help us correct existing information.
+          </p>
+          <p>
+            Free Soul Atlas 是一个由社区共同建设的开放城市档案。你可以推荐地点、补充本地背景、分享观察，或帮助我们修正已有信息。
+          </p>
+          <Link className="button dark" to="/submit">Contribute / 参与贡献</Link>
+        </div>
+      </section>
 
       <section className="criteria-section">
         <div>

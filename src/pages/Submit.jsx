@@ -160,13 +160,20 @@ export default function Submit() {
         <p className="eyebrow">Public Submission / Community Field Notes</p>
         <h1>Recommend a soulful place</h1>
         <h2>推荐一个有灵魂的地方</h2>
-          <p>
-            Free Soul Atlas collects independent spaces, local corners, and cultural places with personality.
-            Every submission will be reviewed and edited before publishing.
+        <p>
+          Help build an open, community-powered city archive.
+          <br />
+          帮助我们共同建设一个开放的社区城市档案。
         </p>
         <p>
-          Free Soul Atlas 收集有个性、有审美、有本地气质的独立空间和城市角落。
-          每一条推荐都会经过审核和编辑后再发布。
+          Free Soul Atlas grows through local knowledge. You can recommend a place, explain why it matters, add missing context, suggest a correction, or help us improve existing information.
+          <br />
+          Free Soul Atlas 依靠本地知识持续生长。你可以推荐一个地点、说明它为什么值得记录、补充缺失的背景、提出修正建议，或帮助我们完善已有信息。
+        </p>
+        <p>
+          Submissions are reviewed before publication. We may edit, verify, combine, decline, or request more information when necessary.
+          <br />
+          投稿会在公开前经过审核。必要时，我们可能会编辑、核实、合并、拒绝投稿，或请求补充信息。
         </p>
       </div>
 
@@ -205,6 +212,16 @@ export default function Submit() {
             Submissions are reviewed before publishing and may be edited for clarity, privacy, safety, and tone.
             <br />
             投稿会在发布前审核，并可能出于清晰度、隐私、安全和语气一致性进行编辑。
+          </p>
+          <p>
+            You may also use this form to suggest corrections, updates, missing context, or removal of information that should not remain public.
+            <br />
+            你也可以通过这个入口建议修正错误、更新过时信息、补充背景，或申请移除不适合继续公开的内容。
+          </p>
+          <p>
+            This form can be used to recommend new places, supplement existing place information, point out errors, update outdated information, share local observations, submit route ideas, or suggest removing information that should not remain public.
+            <br />
+            你可以用这个入口推荐新地点、补充已有地点信息、指出错误内容、更新过时信息、补充缺失背景、分享本地观察、提交路线想法，或建议移除不适合公开的信息。
           </p>
         </div>
       </section>
