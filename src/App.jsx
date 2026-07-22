@@ -10,6 +10,7 @@ import RoutesPage from './pages/Routes'
 import RouteDetail from './pages/RouteDetail'
 import MoodFinder from './pages/MoodFinder'
 import LocalTips from './pages/LocalTips'
+import LocalWalks from './pages/LocalWalks'
 import CustomPlan from './pages/CustomPlan'
 import About from './pages/About'
 import Recommend from './pages/Recommend'
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="/routes/:id" element={<RouteDetail />} />
           <Route path="/mood-finder" element={<MoodFinder />} />
           <Route path="/local-tips" element={<LocalTips />} />
+          <Route path="/local-walks" element={<LocalWalks />} />
           <Route path="/custom-plan" element={<CustomPlan />} />
           <Route path="/about" element={<About />} />
           <Route path="/recommend" element={<Recommend />} />

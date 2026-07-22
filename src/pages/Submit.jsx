@@ -442,7 +442,7 @@ export default function Submit() {
           <br />
           如需修改或删除投稿，或处理隐私相关问题，请联系我们。
         </p>
-        <p>Contact: free-soul-atlas@example.com</p>
+        <p>Contact: freesoulatlas@outlook.com</p>
       </section>
     </section>
   )

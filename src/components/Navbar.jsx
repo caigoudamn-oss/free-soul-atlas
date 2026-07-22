@@ -6,6 +6,7 @@ const links = [
   ['/', 'Home'],
   ['/', 'Cities'],
   ['/routes', 'Routes'],
+  ['/local-walks', 'Local Walks'],
   ['/mood-finder', 'Mood Finder'],
   ['/local-tips', 'Local Tips'],
   ['/about', 'About'],
