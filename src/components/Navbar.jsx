@@ -3,14 +3,11 @@ import { Link, NavLink } from '../lib/router'
 import Icon from './Icon'
 
 const links = [
-  ['/', 'Home'],
-  ['/', 'Cities'],
-  ['/routes', 'Routes'],
-  ['/local-walks', 'Local Walks'],
-  ['/mood-finder', 'Mood Finder'],
-  ['/local-tips', 'Local Tips'],
-  ['/about', 'About'],
-  ['/admin/login', 'Admin'],
+  { path: '/', label: 'Home' },
+  { path: '/#cities', label: 'Cities', anchor: true },
+  { path: '/local-walks', label: 'Local Walks' },
+  { path: '/submit', label: 'Contribute' },
+  { path: '/about', label: 'About' },
 ]
 
 export default function Navbar() {
@@ -30,10 +27,14 @@ export default function Navbar() {
         </button>
 
         <nav className={open ? 'nav-menu open' : 'nav-menu'}>
-          {links.map(([path, label]) => (
-            <NavLink key={path} to={path} onClick={() => setOpen(false)}>
-              {label}
-            </NavLink>
+          {links.map((link) => (
+            link.anchor ? (
+              <a key={link.label} href={link.path} onClick={() => setOpen(false)}>{link.label}</a>
+            ) : (
+              <NavLink key={link.label} to={link.path} onClick={() => setOpen(false)}>
+                {link.label}
+              </NavLink>
+            )
           ))}
         </nav>
 

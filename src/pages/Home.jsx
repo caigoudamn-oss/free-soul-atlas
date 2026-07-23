@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Link } from '../lib/router'
-import Icon from '../components/Icon'
 import CityCard from '../components/CityCard'
 import PlaceCard from '../components/PlaceCard'
 import VisualBlock from '../components/VisualBlock'
@@ -56,10 +55,8 @@ export default function Home() {
             </p>
             <div className="cover-actions">
               <a className="button dark" href="#cities">Choose a City</a>
-              <Link className="button light" to="/submit">Contribute / 参与贡献</Link>
               <Link className="button light" to="/local-walks">Local Walks / 本地慢逛</Link>
               <Link className="button light" to="/about">About the Atlas</Link>
-              <Link className="button text" to="/admin/login">Admin Login <Icon name="arrowRight" /></Link>
             </div>
           </div>
 

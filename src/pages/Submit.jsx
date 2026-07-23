@@ -166,9 +166,9 @@ export default function Submit() {
           帮助我们共同建设一个开放的社区城市档案。
         </p>
         <p>
-          Free Soul Atlas grows through local knowledge. You can recommend a place, explain why it matters, add missing context, suggest a correction, or help us improve existing information.
+          Free Soul Atlas grows through local knowledge. You can recommend a place, add missing context, suggest a correction, or help us improve existing information.
           <br />
-          Free Soul Atlas 依靠本地知识持续生长。你可以推荐一个地点、说明它为什么值得记录、补充缺失的背景、提出修正建议，或帮助我们完善已有信息。
+          Free Soul Atlas 依靠本地知识持续生长。你可以推荐一个地点、补充缺失的背景、提出修正建议，或帮助我们完善已有信息。
         </p>
         <p>
           Submissions are reviewed before publication. We may edit, verify, combine, decline, or request more information when necessary.
@@ -184,44 +184,19 @@ export default function Submit() {
         </div>
         <div className="submission-note-copy">
           <p>
-            Free Soul Atlas is an open cultural atlas built with community submissions.
+            Free Soul Atlas is an open cultural atlas built with community submissions. Submissions reflect the contributor’s personal experience and opinion, not the official position of Free Soul Atlas.
             <br />
-            Free Soul Atlas 是一个开放的城市文化地图，欢迎来自不同地区和文化背景的人提交推荐。
+            Free Soul Atlas 是一个由社区投稿共同建设的开放城市文化档案。投稿内容仅代表投稿人的个人经历与个人意见，不代表 Free Soul Atlas 的官方立场。
           </p>
           <p>
-            Submissions reflect the contributor’s personal experience and opinion. They do not represent the official position of Free Soul Atlas.
+            Submissions are reviewed before publishing and may be edited, verified, combined, declined, or adjusted for clarity, privacy, safety, translation, and tone.
             <br />
-            投稿内容仅代表投稿人的个人经历与个人意见，不代表 Free Soul Atlas 的官方立场。
+            投稿会在发布前审核，并可能出于清晰度、隐私、安全、翻译和语气一致性进行编辑、核实、合并、拒绝或调整。
           </p>
           <p>
-            Free Soul Atlas is an independent cultural project, not an official tourism authority.
+            You may also use this form to recommend new places, suggest corrections, update outdated information, add missing context, share local observations, submit route ideas, or request removal of information that should not remain public.
             <br />
-            Free Soul Atlas 是一个独立文化项目，并非官方旅游机构。
-          </p>
-          <p>
-            Every submission will be reviewed and edited before publishing.
-            <br />
-            每条投稿都会在发布前经过审核和编辑。
-          </p>
-          <p>
-            We may adjust wording, structure, translation, and presentation to keep the platform consistent, accurate, and respectful.
-            <br />
-            为了保持平台内容的一致性、准确性与尊重性，我们可能会对文案结构、表达方式、翻译和展示形式进行编辑。
-          </p>
-          <p>
-            Submissions are reviewed before publishing and may be edited for clarity, privacy, safety, and tone.
-            <br />
-            投稿会在发布前审核，并可能出于清晰度、隐私、安全和语气一致性进行编辑。
-          </p>
-          <p>
-            You may also use this form to suggest corrections, updates, missing context, or removal of information that should not remain public.
-            <br />
-            你也可以通过这个入口建议修正错误、更新过时信息、补充背景，或申请移除不适合继续公开的内容。
-          </p>
-          <p>
-            This form can be used to recommend new places, supplement existing place information, point out errors, update outdated information, share local observations, submit route ideas, or suggest removing information that should not remain public.
-            <br />
-            你可以用这个入口推荐新地点、补充已有地点信息、指出错误内容、更新过时信息、补充缺失背景、分享本地观察、提交路线想法，或建议移除不适合公开的信息。
+            你也可以通过这个入口推荐新地点、建议修正错误、更新过时信息、补充缺失背景、分享本地观察、提交路线想法，或申请移除不适合继续公开的信息。
           </p>
         </div>
       </section>

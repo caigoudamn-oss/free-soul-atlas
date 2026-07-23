@@ -27,6 +27,20 @@ function ScrollToTop() {
   const { pathname } = useLocation()
 
   useEffect(() => {
+    const hash = window.location.hash
+
+    if (hash) {
+      window.requestAnimationFrame(() => {
+        const target = document.getElementById(decodeURIComponent(hash.slice(1)))
+        if (target) {
+          target.scrollIntoView({ block: 'start' })
+        } else {
+          window.scrollTo({ top: 0, left: 0 })
+        }
+      })
+      return
+    }
+
     window.scrollTo({ top: 0, left: 0 })
   }, [pathname])
 

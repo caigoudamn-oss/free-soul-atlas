@@ -15,7 +15,7 @@ const notList = [
   'Not a nightlife escort service / 不是夜生活陪同服务',
   'Not an official tourism authority / 不是官方旅游机构',
   'Not a travel agency / 不是旅行社',
-  'Not a guaranteed booking service / 不是保证预约服务',
+  'Not an automatic acceptance service / 不是自动受理服务',
   'Not a large group tour / 不是大型团体游',
 ]
 
@@ -71,6 +71,7 @@ const safety = [
   ['No unsafe, private, or sensitive locations without permission.', '未经许可，不安排不安全、私人或敏感地点。'],
   ['Travelers are responsible for their personal belongings, travel documents, insurance, and personal safety decisions.', '旅行者需自行保管个人物品、旅行证件，并对保险和个人安全判断负责。'],
   ['We may decline requests that feel unsafe, inappropriate, unclear, unavailable in that city, or outside our current ability.', '对于不安全、不合适、不清晰、该城市暂不可提供，或超出当前能力范围的请求，我们可能会拒绝。'],
+  ['Submitting an inquiry does not guarantee acceptance.', '提交咨询不代表一定会被接受。'],
 ]
 
 const archivePrinciples = [
@@ -126,15 +127,9 @@ export default function LocalWalks() {
         </div>
         <div>
           <p>
-            This is not a standard tourist tour.
-          </p>
-          <p>
-            Free Soul Atlas Local Walks are small, city-based cultural experiences for travelers who want to understand a place through its landscapes, neighborhoods, architecture, independent spaces, local culture, and everyday life.
+            This is not a standard tourist tour. Free Soul Atlas Local Walks are small, city-based cultural experiences for travelers who want to understand a place through its landscapes, neighborhoods, architecture, independent spaces, local culture, and everyday life.
             <br />
-            这不是标准景点打卡团。
-          </p>
-          <p>
-            Free Soul Atlas Local Walks 是以城市为单位的小型本地文化体验，面向希望通过自然景观、街区、建筑、独立空间、本地文化和日常生活理解一个地方的旅行者。
+            这不是标准景点打卡团。Free Soul Atlas Local Walks 是以城市为单位的小型本地文化体验，面向希望通过自然景观、街区、建筑、独立空间、本地文化和日常生活理解一个地方的旅行者。
           </p>
           <p>
             Each walk is shaped by the character of the city, the interests of the traveler, and the knowledge of local contributors.
@@ -227,32 +222,14 @@ export default function LocalWalks() {
         </div>
         <div>
           <p>
-            由真正了解、观察并在意一座城市的人共同建设。
+            Free Soul Atlas is an open, community-built archive for understanding cities through local knowledge, independent perspectives, and careful ongoing correction.
+            <br />
+            Free Soul Atlas 是一个以本地知识、独立视角和持续修正为基础，由社区共同建设的开放城市档案。
           </p>
           <p>
-            Free Soul Atlas is an open, community-built archive for understanding cities through local knowledge and independent perspectives.
+            Anyone may contribute places, observations, corrections, route ideas, photographs, and local knowledge. Public content is reviewed, organized, and edited before publication.
             <br />
-            Free Soul Atlas 是一个以本地知识和独立视角为基础、由社区共同建设的开放城市档案。
-          </p>
-          <p>
-            Local residents, travelers, international students, creators, researchers, and independent explorers are welcome to contribute places, observations, corrections, routes, photographs, and local knowledge.
-            <br />
-            我们欢迎本地居民、旅行者、国际学生、创作者、研究者和独立探索者，贡献地点、观察、修正、路线、影像和本地知识。
-          </p>
-          <p>
-            The archive is never considered finished. Each city edition can continue to grow, change, and become more accurate through shared contributions.
-            <br />
-            城市档案不会被视为已经完成。每一座城市的内容都可以通过共同贡献持续生长、修正并变得更加准确。
-          </p>
-          <p>
-            Anyone can contribute. Public content is reviewed, organized, and edited before publication.
-            <br />
-            任何人都可以参与贡献，公开内容会在发布前经过审核、整理和编辑。
-          </p>
-          <p>
-            The goal is not to collect everything. It is to build a thoughtful, independent, and evolving understanding of each city.
-            <br />
-            我们的目标不是收集所有信息，而是共同建立一种有判断、有独立视角并且持续变化的城市理解。
+            任何人都可以贡献地点、观察、修正、路线想法、影像和本地知识。公开内容会在发布前经过审核、整理和编辑。
           </p>
           <div className="archive-principles">
             {archivePrinciples.map(([number, title, text, cn]) => (
@@ -334,30 +311,6 @@ export default function LocalWalks() {
         </div>
       </section>
 
-      <section className="walk-editorial-section">
-        <div>
-          <span>Beta notice</span>
-          <h2>Limited availability.</h2>
-        </div>
-        <div>
-          <p>
-            Local Walks are currently available on a limited beta basis.
-            <br />
-            Local Walks 目前处于有限测试阶段。
-          </p>
-          <p>
-            Availability depends on the city, route readiness, language, safety, and contributor availability.
-            <br />
-            是否能够提供服务，会根据城市、路线成熟度、语言、安全和本地参与者情况决定。
-          </p>
-          <p>
-            Submitting an inquiry does not guarantee acceptance.
-            <br />
-            提交咨询不代表一定会被接受。
-          </p>
-        </div>
-      </section>
-
       <section className="walk-editorial-section community-teaser">
         <div>
           <span>Beyond the walk</span>
@@ -365,22 +318,14 @@ export default function LocalWalks() {
         </div>
         <div>
           <p>
-            一个为那些把城市视为文化，而不只是目的地的人建立的社群。
-          </p>
-          <p>
-            Free Soul Atlas is gradually building a cross-cultural, city-based community connecting local explorers, international students, independent travelers, creators, and people interested in nature, culture, architecture, local life, and independent spaces.
+            Free Soul Atlas is gradually building a cross-cultural, city-based community for local explorers, international students, independent travelers, creators, and people interested in nature, culture, architecture, local life, and independent spaces.
             <br />
             Free Soul Atlas 正在逐步建立一个以城市为单位的跨文化社群，连接本地探索者、国际学生、独立旅行者、创作者，以及关注自然、文化、建筑、本地生活和独立空间的人。
           </p>
           <p>
-            Each city may eventually develop its own contributors, local discussions, walks, gatherings, and shared cultural archive.
+            Community is about people and relationships: local discussions, small gatherings, route sharing, cultural exchange, and new perspectives that can also support the archive.
             <br />
-            未来每座城市都可能逐步形成自己的内容贡献者、本地讨论、慢逛活动、小型聚会和共享城市文化档案。
-          </p>
-          <p>
-            The community supports the archive by sharing local knowledge, observations, corrections, and new perspectives.
-            <br />
-            社群也会通过分享本地知识、观察、修正和新的视角，持续支持城市档案的建设。
+            社群关注人与关系：本地讨论、小型聚会、路线分享、文化交流，以及能继续支持城市档案的新视角。
           </p>
           <p className="walk-note">
             Community channels are being prepared.
