@@ -1528,27 +1528,27 @@ button { cursor: pointer; }
   display: grid;
   gap: 18px;
 }
-.recommendation-guide {
+.contribution-guide {
   border-top: 0;
 }
-.submission-guide-grid {
+.contribution-guide-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 28px 46px;
 }
-.submission-guide-grid h3 {
+.contribution-guide-grid h3 {
   margin: 0 0 14px;
   font-size: 18px;
   line-height: 1.2;
 }
-.submission-guide-grid ul {
+.contribution-guide-grid ul {
   margin: 0;
   padding-left: 18px;
   color: var(--muted);
   font-size: 15px;
   line-height: 1.8;
 }
-.submission-guide-note {
+.contribution-guide-note {
   grid-column: 1 / -1;
   padding-top: 18px;
   border-top: 1px solid var(--line);
@@ -1692,7 +1692,7 @@ button { cursor: pointer; }
 .walk-list-section,
 .walk-card-section,
 .walk-steps,
-.walk-inquiry {
+.walk-interest {
   padding: 72px 0;
   border-bottom: 1px solid var(--line);
 }
@@ -1712,7 +1712,7 @@ button { cursor: pointer; }
   text-transform: uppercase;
 }
 .walk-editorial-section h2,
-.walk-inquiry h2 {
+.walk-interest h2 {
   margin: 14px 0 0;
   font-size: clamp(2.1rem, 4vw, 5rem);
   line-height: .98;
@@ -1720,7 +1720,7 @@ button { cursor: pointer; }
 }
 .walk-editorial-section p,
 .walk-note,
-.walk-inquiry p,
+.walk-interest p,
 .safety-list p {
   max-width: 900px;
   margin: 0 0 22px;
@@ -1867,15 +1867,15 @@ button { cursor: pointer; }
   padding-bottom: 18px;
   border-bottom: 1px solid var(--line);
 }
-.walk-inquiry {
+.walk-interest {
   text-align: left;
   border-bottom: 0;
 }
-.walk-inquiry h2 {
+.walk-interest h2 {
   max-width: 780px;
   margin-bottom: 22px;
 }
-.walk-inquiry .button {
+.walk-interest .button {
   margin-top: 28px;
   min-height: 64px;
   text-align: center;
@@ -2008,7 +2008,7 @@ button { cursor: pointer; }
   .section-title,
   .submission-hero,
   .submission-notice,
-  .submission-guide-grid,
+  .contribution-guide-grid,
   .walk-editorial-section,
   .walk-card-grid,
   .archive-cta,

@@ -43,7 +43,7 @@ export default function Home() {
       <section className="home-cover">
         <div className="cover-masthead">
           <span>Free Soul Atlas</span>
-          <span>City archives for soulful places, local rooms, and quiet routes.</span>
+          <span>Open city archives built through local knowledge and personal perspectives.</span>
         </div>
 
         <div className="cover-grid">
@@ -51,7 +51,7 @@ export default function Home() {
             <p className="eyebrow">Global Index / City Editions</p>
             <h1>Find free souls across cities.</h1>
             <p className="cover-subtitle">
-              An editorial atlas of real places with atmosphere, independent taste, local rhythm, and a reason to exist beyond tourist checklists.
+              An open city archive built through local knowledge, personal perspectives, and community contributions. Discover places that reveal the character of a city.
             </p>
             <div className="cover-actions">
               <a className="button dark" href="#cities">Choose a City</a>
@@ -106,10 +106,21 @@ export default function Home() {
         </div>
         <div className="criteria-copy">
           <p>
-            Free Soul Atlas is an open, community-built city archive. Recommend places, add local context, share observations, or help us correct existing information.
+            Free Soul Atlas is built by people who pay attention to their cities.
           </p>
           <p>
-            Free Soul Atlas 是一个由社区共同建设的开放城市档案。你可以推荐地点、补充本地背景、分享观察，或帮助我们修正已有信息。
+            We collect places, stories, memories, and perspectives that reveal the character of a city.
+          </p>
+          <p>
+            Free Soul Atlas 由关注城市的人共同建立。
+          </p>
+          <p>
+            我们记录地点、故事、记忆和个人视角，寻找真正体现城市性格的地方。
+          </p>
+          <p>
+            Community is not about adding more content. It is about seeing cities from more perspectives.
+            <br />
+            社区不是制造更多信息，而是让城市被更多不同视角理解。
           </p>
           <Link className="button dark" to="/submit">Contribute / 参与贡献</Link>
         </div>

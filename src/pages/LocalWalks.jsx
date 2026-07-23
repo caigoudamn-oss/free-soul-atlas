@@ -10,13 +10,13 @@ const audience = [
 ]
 
 const notList = [
-  'Not a standard sightseeing tour / 不是标准景点团',
-  'Not a shopping tour / 不是购物团',
-  'Not a nightlife escort service / 不是夜生活陪同服务',
+  'Not a travel product / 不是旅游产品',
+  'Not a sightseeing checklist / 不是景点清单',
+  'Not a nightlife arrangement / 不是夜生活安排',
   'Not an official tourism authority / 不是官方旅游机构',
   'Not a travel agency / 不是旅行社',
-  'Not an automatic acceptance service / 不是自动受理服务',
-  'Not a large group tour / 不是大型团体游',
+  'Not an automatic acceptance channel / 不是自动受理通道',
+  'Not a mass itinerary / 不是大型标准行程',
 ]
 
 const exampleRoutes = [
@@ -39,43 +39,40 @@ const exampleRoutes = [
 
 const formats = [
   {
-    title: 'Custom Local Route',
-    text: 'A personalized route suggestion based on your interests, available time, and the city you are visiting.',
-    cn: '根据你的兴趣、可用时间和所访问的城市，提供个性化路线建议。',
+    title: 'Explore independently',
+    text: 'Use the archive to notice landscapes, neighborhoods, spaces, and rhythms that reveal the character of a city.',
+    cn: '通过城市档案，发现自然景观、街区、空间和日常节奏中体现城市性格的部分。',
   },
   {
-    title: 'Online Route Planning',
-    text: 'A short online conversation to help you understand the city, choose areas, avoid unsuitable routes, and plan your time.',
-    cn: '通过一次简短线上沟通，帮你理解城市、选择区域、避开不合适的路线并安排时间。',
+    title: 'Plan with a local perspective',
+    text: 'As each city archive grows, local perspectives may help shape slower and more meaningful ways to read the city.',
+    cn: '随着每座城市档案逐渐完善，本地视角也可能帮助形成更慢、更有意义的城市理解方式。',
   },
   {
-    title: 'Small Local Walk',
-    text: 'A limited, city-based beta walk with a local perspective. Availability depends on the city, route readiness, language, safety, and local contributors.',
-    cn: '以本地视角进行的小规模城市慢逛。是否开放取决于城市内容成熟度、路线准备、语言、安全和本地参与者情况。',
+    title: 'Experience with a local',
+    text: 'In the future, some cities may support small local walks or cultural experiences with people who truly understand the place.',
+    cn: '未来，部分城市可能逐步开放由真正理解当地的人参与的小型本地慢逛或文化体验。',
   },
 ]
 
 const steps = [
-  ['01', 'Tell us which city you are visiting, your travel date, interests, language preference, and available time.', '告诉我们你要访问的城市、旅行日期、兴趣、语言偏好和可用时间。'],
-  ['02', 'We check whether that city currently has enough local content, route readiness, and available contributors.', '我们会确认该城市是否已经具备足够的本地内容、成熟路线和可参与的本地成员。'],
-  ['03', 'If suitable, we suggest a route, online planning session, or small local walk.', '如果条件合适，我们会建议路线方案、线上规划或小型本地慢逛。'],
-  ['04', 'We confirm the scope, duration, meeting point, cost, boundaries, and safety notes before anything begins.', '开始前会确认服务范围、时长、集合点、费用、边界和安全说明。'],
+  ['01', 'First, each city archive needs enough places, observations, routes, and local context.', '首先，每座城市档案需要积累足够的地点、观察、路线和本地背景。'],
+  ['02', 'Then, trusted local perspectives can help connect those fragments into readable city experiences.', '之后，可信赖的本地视角可以把这些碎片连接成更容易理解的城市体验。'],
+  ['03', 'Some cities may later develop local walks, cultural exchanges, or small community activities.', '未来，部分城市可能发展出本地慢逛、文化交流或小型社区活动。'],
+  ['04', 'For now, the archive comes first. Local experiences remain a future direction.', '现阶段，城市档案优先。城市体验仍然是未来方向。'],
 ]
 
 const safety = [
   ['Free Soul Atlas is an independent cultural project, not an official tourism authority or travel agency.', 'Free Soul Atlas 是一个独立文化项目，并非官方旅游机构或旅行社。'],
-  ['Local walks are small and limited.', '本地慢逛为小规模、有限形式。'],
-  ['No shopping pressure.', '不强制购物。'],
-  ['No hidden fees.', '没有隐藏费用。'],
-  ['Route, duration, cost, scope, and meeting point are confirmed before the walk.', '路线、时长、费用、服务范围和集合点会在出发前确认。'],
+  ['Local Walks are a future direction, not the current core product.', 'Local Walks 是未来方向，不是当前核心产品。'],
+  ['The archive comes before any experience format.', '城市档案优先于任何体验形式。'],
   ['No unsafe, private, or sensitive locations without permission.', '未经许可，不安排不安全、私人或敏感地点。'],
-  ['Travelers are responsible for their personal belongings, travel documents, insurance, and personal safety decisions.', '旅行者需自行保管个人物品、旅行证件，并对保险和个人安全判断负责。'],
-  ['We may decline requests that feel unsafe, inappropriate, unclear, unavailable in that city, or outside our current ability.', '对于不安全、不合适、不清晰、该城市暂不可提供，或超出当前能力范围的请求，我们可能会拒绝。'],
-  ['Submitting an inquiry does not guarantee acceptance.', '提交咨询不代表一定会被接受。'],
+  ['Any future city experience should remain small, careful, and based on real local knowledge.', '未来任何城市体验都应该保持小规模、谨慎，并建立在真实本地知识之上。'],
+  ['Free Soul Atlas may decline ideas that feel unsafe, inappropriate, unclear, or outside the current archive stage.', '对于不安全、不合适、不清晰，或超出当前城市档案阶段的想法，Free Soul Atlas 可能不会推进。'],
 ]
 
 const archivePrinciples = [
-  ['01', 'Open contribution', 'Anyone can submit local knowledge, observations, corrections, and recommendations.', '任何人都可以提交本地知识、观察、修正和推荐。'],
+  ['01', 'Open contribution', 'Anyone can submit local knowledge, observations, corrections, and personal perspectives.', '任何人都可以提交本地知识、观察、修正和个人视角。'],
   ['02', 'Editorial review', 'Public content is reviewed and edited before publication.', '公开内容会在发布前经过审核和编辑。'],
   ['03', 'Local knowledge', 'We value knowledge shaped by real local life and long-term observation.', '我们重视来自真实本地生活和长期观察的知识。'],
   ['04', 'Continuous revision', 'Information can be updated, corrected, expanded, or removed when necessary.', '内容可以持续更新、修正、补充，必要时也可以移除。'],
@@ -83,31 +80,29 @@ const archivePrinciples = [
   ['06', 'Respect and safety', 'Private, sensitive, unsafe, or unauthorized information should not be published.', '不应公开私人、敏感、不安全或未经授权的信息。'],
 ]
 
-const inquiryItems = [
-  'city / 城市',
-  'travel date / 旅行日期',
-  'number of people / 人数',
-  'interests / 兴趣方向',
-  'preferred language / 偏好语言',
-  'available time / 可用时间',
-  'any safety or accessibility needs / 是否有安全或无障碍需求',
+const interestItems = [
+  'city you care about / 你关注的城市',
+  'places or routes you know / 你了解的地点或路线',
+  'local context you can share / 你可以分享的本地背景',
+  'possible cultural walk ideas / 可能的城市慢逛想法',
+  'language or accessibility notes / 语言或无障碍说明',
 ]
 
 export default function LocalWalks() {
   return (
     <div className="page local-walks-page">
       <header className="page-hero local-walks-hero">
-        <p className="eyebrow">Free Soul Atlas / Local Cultural Walks</p>
+        <p className="eyebrow">Future Direction / Local Perspectives</p>
         <h1>Local Walks</h1>
         <p>
-          See cities through local eyes — their landscapes, neighborhoods, culture, independent spaces, and everyday rhythms.
+          A future way to experience cities through local perspectives.
           <br />
-          通过本地人的眼睛理解城市：自然景观、街区、文化、独立空间和真实日常节奏。
+          未来的城市体验方式：通过本地视角理解一座城市。
         </p>
         <p>
-          For travelers who want something slower, smaller, and more personal than a standard tourist checklist.
+          Local Walks is a future direction of Free Soul Atlas. As the archive grows, we hope to connect travelers with people who truly understand their cities.
           <br />
-          给那些想要比标准景点清单更慢、更小、更个人化体验的旅行者。
+          Local Walks 是 Free Soul Atlas 未来的发展方向。随着城市档案不断完善，我们希望未来连接旅行者与真正理解城市的人。
         </p>
         <p>
           A city is more than a destination. It is made of landscapes, neighborhoods, people, memory, culture, and everyday life.
@@ -115,7 +110,7 @@ export default function LocalWalks() {
           城市不只是目的地。它由自然景观、街区、人物、记忆、文化和日常生活共同构成。
         </p>
         <div className="cover-actions">
-          <a className="button dark" href="mailto:freesoulatlas@outlook.com">Contact us / Send inquiry</a>
+          <a className="button dark" href="mailto:freesoulatlas@outlook.com">Share interest / 保持联系</a>
           <Link className="button light" to="/">Back to Atlas</Link>
         </div>
       </header>
@@ -123,23 +118,23 @@ export default function LocalWalks() {
       <section className="walk-editorial-section">
         <div>
           <span>What this is</span>
-          <h2>A local cultural walk, not a checklist.</h2>
+          <h2>A future direction, not the current core.</h2>
         </div>
         <div>
           <p>
-            This is not a standard tourist tour. Free Soul Atlas Local Walks are small, city-based cultural experiences for travelers who want to understand a place through its landscapes, neighborhoods, architecture, independent spaces, local culture, and everyday life.
+            Local Walks are not the center of Free Soul Atlas today. The archive is the foundation: places, stories, memories, and perspectives that help people understand a city.
             <br />
-            这不是标准景点打卡团。Free Soul Atlas Local Walks 是以城市为单位的小型本地文化体验，面向希望通过自然景观、街区、建筑、独立空间、本地文化和日常生活理解一个地方的旅行者。
+            Local Walks 不是 Free Soul Atlas 当前的中心。城市档案才是基础：地点、故事、记忆和个人视角，帮助人们理解一座城市。
           </p>
           <p>
-            Each walk is shaped by the character of the city, the interests of the traveler, and the knowledge of local contributors.
+            In the future, some archives may grow into local experiences shaped by people who know, notice, and care about their cities.
             <br />
-            每次慢逛都会根据城市自身的性格、旅行者的兴趣，以及本地参与者的经验进行调整。
+            未来，部分城市档案可能逐渐发展成本地体验，由真正了解、观察并在意城市的人共同塑造。
           </p>
           <p>
-            Free Soul Atlas starts from places, people, and routes — not from packaged tourism.
+            Free Soul Atlas starts from discovery, documentation, and understanding — not from packaged tourism.
             <br />
-            Free Soul Atlas 从地点、人物和路线出发，而不是从标准化旅游产品出发。
+            Free Soul Atlas 从发现、记录和理解城市出发，而不是从打包旅游产品出发。
           </p>
         </div>
       </section>
@@ -198,9 +193,9 @@ export default function LocalWalks() {
           </div>
           <div>
             <p>
-              Free Soul Atlas develops each city edition gradually. Local Walks are only available where enough local research, route testing, and trusted local knowledge have been established.
+              Free Soul Atlas develops each city edition gradually. Local Walks may only become possible where enough local research, route testing, and trusted local knowledge have been established.
               <br />
-              Free Soul Atlas 会逐步建立每一座城市的内容。只有当本地资料、路线测试和可信赖的当地经验足够成熟时，才会开放相应城市的 Local Walks。
+              Free Soul Atlas 会逐步建立每一座城市的内容。只有当本地资料、路线测试和可信赖的当地经验足够成熟时，Local Walks 才可能成为一种未来形式。
             </p>
           </div>
         </div>
@@ -208,8 +203,8 @@ export default function LocalWalks() {
           <article className="walk-card city-beta-card">
             <span>Beta city</span>
             <h3>Dalian</h3>
-            <p>Dalian is the first city currently being researched and tested. Local Walks may be available on a limited basis.</p>
-            <p>大连是当前第一个正在进行内容建设与路线测试的城市，本地慢逛可能以有限测试形式开放。</p>
+            <p>Dalian is the first city currently being researched and tested. It is the starting point for the archive, not the whole identity of Free Soul Atlas.</p>
+            <p>大连是当前第一个正在进行内容建设与路线测试的城市。它是城市档案的起点，但不是 Free Soul Atlas 的全部身份。</p>
             <Link className="button light" to="/cities/dalian">View Dalian Edition</Link>
           </article>
         </div>
@@ -242,9 +237,9 @@ export default function LocalWalks() {
           </div>
           <div className="archive-cta">
             <p>
-              Recommend a place, share a local observation, suggest a correction, or help us improve existing information.
+              Contribute a place, share a local observation, suggest a correction, or help us improve existing information.
               <br />
-              推荐一个地点、分享一条本地观察、提出修正建议，或帮助我们完善已有信息。
+              贡献一个地点、分享一条本地观察、提出修正建议，或帮助我们完善已有信息。
             </p>
             <Link className="button dark" to="/submit">Contribute to the Atlas<br />参与共同建设</Link>
           </div>
@@ -253,8 +248,8 @@ export default function LocalWalks() {
 
       <section className="walk-card-section">
         <div className="section-title">
-          <span>04 / Possible formats</span>
-          <h2>Inquiry first, no automatic booking.</h2>
+          <span>04 / Future possibilities</span>
+          <h2>Open archive now, local experiences later.</h2>
         </div>
         <div className="walk-card-grid">
           {formats.map((format) => (
@@ -269,8 +264,8 @@ export default function LocalWalks() {
 
       <section className="walk-steps">
         <div className="section-title">
-          <span>05 / How it works</span>
-          <h2>Small steps, clear expectations.</h2>
+          <span>05 / How this may grow</span>
+          <h2>Archive first, experiences later.</h2>
         </div>
         {steps.map(([number, text, cn]) => (
           <article key={number}>
@@ -283,7 +278,7 @@ export default function LocalWalks() {
       <section className="walk-editorial-section">
         <div>
           <span>Trust & Safety</span>
-          <h2>Limited, independent, and clearly discussed first.</h2>
+          <h2>Careful, independent, and archive-led.</h2>
         </div>
         <div className="safety-list">
           {safety.map(([text, cn]) => (
@@ -295,18 +290,18 @@ export default function LocalWalks() {
       <section className="walk-editorial-section">
         <div>
           <span>Language</span>
-          <h2>Clear communication over formal speeches.</h2>
+          <h2>Clear language over formal scripts.</h2>
         </div>
         <div>
           <p>
-            English communication may be available depending on the city and the local contributor. This is currently a beta project, and we focus on clear, practical, and honest communication rather than formal guide-style speeches.
+            English communication may be possible depending on the city and the local contributor. This is currently an archive-led project, and we focus on clear, practical, and honest communication rather than formal travel scripts.
             <br />
-            是否可以使用英文沟通，会根据城市和当地参与者情况决定。项目目前仍处于测试阶段，我们更关注清楚、实用和真实的交流，而不是正式导游式讲解。
+            是否可以使用英文沟通，会根据城市和当地参与者情况决定。项目目前仍以城市档案为核心，我们更关注清楚、实用和真实的交流，而不是正式旅行话术。
           </p>
           <p>
-            Routes will only be offered around topics and places that local contributors can explain clearly and responsibly.
+            Future routes or walks should only grow around topics and places that local contributors can explain clearly and responsibly.
             <br />
-            我们只会围绕本地参与者能够清楚、负责地介绍的地点和主题提供路线。
+            未来的路线或慢逛，只应围绕本地参与者能够清楚、负责地介绍的地点和主题逐步形成。
           </p>
         </div>
       </section>
@@ -335,14 +330,14 @@ export default function LocalWalks() {
         </div>
       </section>
 
-      <section className="walk-inquiry">
-        <p className="eyebrow">Interested in exploring a city with us?</p>
-        <h2>想和我们一起理解一座城市？</h2>
-        <p>Please include / 请在邮件里简单说明：</p>
+      <section className="walk-interest">
+        <p className="eyebrow">Interested in the future of Local Walks?</p>
+        <h2>想参与未来的城市体验方向？</h2>
+        <p>You can share / 你可以简单分享：</p>
         <div className="walk-list-grid">
-          {inquiryItems.map((item) => <span key={item}>{item}</span>)}
+          {interestItems.map((item) => <span key={item}>{item}</span>)}
         </div>
-        <a className="button dark" href="mailto:freesoulatlas@outlook.com">Contact us / Send inquiry<br />联系我们 / 发送咨询</a>
+        <a className="button dark" href="mailto:freesoulatlas@outlook.com">Share interest / 保持联系<br />分享想法 / 联系我们</a>
       </section>
     </div>
   )

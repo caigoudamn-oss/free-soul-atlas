@@ -8,22 +8,24 @@ export default function About() {
 
       <section className="about-editorial">
         <p>
-          Free Soul Atlas begins with Dalian: a sea city that is often introduced through landmarks, seafood, squares, and postcard views. But the city also lives in smaller rooms — a record corner, a second-floor vintage shop, a quiet breakfast counter, a handmade table, a wall full of accidental design.
+          Free Soul Atlas is an open city archive built through local knowledge, personal perspectives, and community contributions.
+          <br />
+          Free Soul Atlas 是一个通过本地知识、个人视角和社区贡献共同建立的开放城市档案。
         </p>
         <blockquote>
-          We are not trying to turn every place into content. We are trying to notice the places that still feel human.
+          We are not trying to turn every place into content. We are trying to notice the places that reveal the character of a city.
         </blockquote>
         <p>
-          This atlas is for travelers and locals who want more than a checklist. It is for people who enjoy atmosphere, independent taste, local rhythm, and the small decisions that make a place feel alive.
+          This atlas is for people who want to discover, record, and understand cities through atmosphere, independent taste, local rhythm, memory, landscape, architecture, and everyday life.
         </p>
         <p>
-          We are not a review platform, not a ranking system, not a tourist map, and not a consumer guide. We are a city lifestyle archive for people, places, textures, and routes that make Dalian feel more diverse, more real, and more soulful.
+          We are not a travel agency, not a packaged travel platform, not an appointment platform, and not a tourism checklist website. We are an archive for places, stories, textures, and perspectives that make cities feel more diverse, more real, and more alive.
         </p>
       </section>
 
       <section className="founder-note">
         <span>Editorial promise</span>
-        <p>Every place should have a reason to exist beyond being photogenic. Every route should leave room for weather, mood, and accidental discoveries.</p>
+        <p>Every place should have a reason to exist beyond being photogenic. Every contribution should help us understand a city through more than popularity, checklists, or consumption.</p>
       </section>
     </div>
   )

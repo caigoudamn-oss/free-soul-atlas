@@ -117,7 +117,7 @@ export default function Submit() {
 
     if (!canSubmit) {
       if (!form.name.trim() || !form.reason.trim() || (form.type === 'other' && !form.customType.trim())) {
-        setError('Please complete Place name, Type, and Recommendation reason. / 请补全地点名、类型和推荐理由。')
+        setError('Please complete Place name, Type, and why this place matters. / 请补全地点名、类型和它为什么值得被记录。')
       } else {
         setError('Please confirm the content responsibility before submitting. / 提交前请确认内容责任说明。')
       }
@@ -140,14 +140,14 @@ export default function Submit() {
     return (
       <section className="success-page submission-success">
         <span>Submission Received</span>
-        <h1>Thank you for the recommendation.</h1>
+        <h1>Thank you for helping build the Atlas.</h1>
         <p>
           Your submission has been received and will be reviewed by Free Soul Atlas.
           <br />
-          感谢你的推荐。这条内容已经收到，会由 Free Soul Atlas 审核和编辑后再发布。
+          感谢你帮助共同建设这份城市档案。这条内容已经收到，会由 Free Soul Atlas 审核和编辑后再发布。
         </p>
         <div className="success-actions">
-          <button className="button dark" type="button" onClick={resetForm}>Submit another place / 继续推荐</button>
+          <button className="button dark" type="button" onClick={resetForm}>Contribute another place / 继续参与贡献</button>
           <Link className="button light" to="/">Back to home / 回到首页</Link>
         </div>
       </section>
@@ -157,18 +157,23 @@ export default function Submit() {
   return (
     <section className="submission-page">
       <div className="submission-hero">
-        <p className="eyebrow">Public Submission / Community Field Notes</p>
-        <h1>Recommend a soulful place</h1>
-        <h2>推荐一个有灵魂的地方</h2>
+        <p className="eyebrow">Contribute / Community Field Notes</p>
+        <h1>Contribute to the Atlas</h1>
+        <h2>参与共同建设</h2>
         <p>
           Help build an open, community-powered city archive.
           <br />
           帮助我们共同建设一个开放的社区城市档案。
         </p>
         <p>
-          Free Soul Atlas grows through local knowledge. You can recommend a place, add missing context, suggest a correction, or help us improve existing information.
+          We are not looking for tourist recommendations. We are looking for places with character.
           <br />
-          Free Soul Atlas 依靠本地知识持续生长。你可以推荐一个地点、补充缺失的背景、提出修正建议，或帮助我们完善已有信息。
+          我们寻找的不是普通旅游推荐。我们寻找的是有性格、有故事、有城市气质的地方。
+        </p>
+        <p>
+          Do you know a place that represents your city? A small corner, a street, a shop, a building, a landscape, or a place with a special atmosphere? Share it with us.
+          <br />
+          你是否知道一个代表你所在城市气质的地方？可能是一条街、一个小店、一栋建筑、一片自然景观，或者一个有特殊氛围的角落。分享给我们。
         </p>
         <p>
           Submissions are reviewed before publication. We may edit, verify, combine, decline, or request more information when necessary.
@@ -194,21 +199,21 @@ export default function Submit() {
             投稿会在发布前审核，并可能出于清晰度、隐私、安全、翻译和语气一致性进行编辑、核实、合并、拒绝或调整。
           </p>
           <p>
-            You may also use this form to recommend new places, suggest corrections, update outdated information, add missing context, share local observations, submit route ideas, or request removal of information that should not remain public.
+            You may also use this form to contribute new places, suggest corrections, update outdated information, add missing context, share local observations, submit route ideas, or request removal of information that should not remain public.
             <br />
-            你也可以通过这个入口推荐新地点、建议修正错误、更新过时信息、补充缺失背景、分享本地观察、提交路线想法，或申请移除不适合继续公开的信息。
+            你也可以通过这个入口贡献新地点、建议修正错误、更新过时信息、补充缺失背景、分享本地观察、提交路线想法，或申请移除不适合继续公开的信息。
           </p>
         </div>
       </section>
 
-      <section className="submission-notice recommendation-guide">
+      <section className="submission-notice contribution-guide">
         <div>
-          <span>What makes a good recommendation?</span>
-          <h2>什么样的地方适合推荐？</h2>
+          <span>What makes a good contribution?</span>
+          <h2>什么样的地方适合贡献？</h2>
         </div>
-        <div className="submission-guide-grid">
+        <div className="contribution-guide-grid">
           <div>
-            <h3>Good examples / 适合推荐</h3>
+            <h3>Good examples / 适合贡献</h3>
             <ul>
               <li>Independent cafés / 独立咖啡店</li>
               <li>Record stores / 唱片店</li>
@@ -231,7 +236,7 @@ export default function Submit() {
               <li>Offensive or false claims / 攻击性或虚假内容</li>
             </ul>
           </div>
-          <p className="submission-guide-note">
+          <p className="contribution-guide-note">
             Submission does not guarantee publication.
             <br />
             投稿不代表一定会被发布。
@@ -299,7 +304,7 @@ export default function Submit() {
         </label>
 
         <label className="wide">
-          Why do you recommend it? / 为什么推荐它？ <span className="field-required">Required</span>
+          Why does this place matter? / 为什么它值得被记录？ <span className="field-required">Required</span>
           <textarea
             value={form.reason}
             onChange={(event) => updateField('reason', event.target.value)}
@@ -377,13 +382,13 @@ export default function Submit() {
           </div>
         )}
 
-        <section className="submission-inline-note responsibility-note wide">
+      <section className="submission-inline-note responsibility-note wide">
           <span>Content Responsibility</span>
           <h3>内容责任</h3>
           <p>
-            Please submit only genuine recommendations based on your own knowledge or experience.
+            Please submit only genuine contributions based on your own knowledge or experience.
             <br />
-            请只提交基于你本人了解或经历的真实推荐。
+            请只提交基于你本人了解或经历的真实贡献。
           </p>
           <p>
             Do not submit spam, advertisements, offensive content, false information, or content that infringes others’ rights.
@@ -421,7 +426,7 @@ export default function Submit() {
             <p>Submissions are saved as draft + submitted. They will not appear on the public site until reviewed.</p>
           </div>
           <button className="button dark" type="submit" disabled={saving || !canSubmit}>
-            {saving ? 'Submitting...' : 'Submit recommendation / 提交推荐'}
+            {saving ? 'Submitting...' : 'Submit contribution / 提交贡献'}
           </button>
         </div>
       </form>

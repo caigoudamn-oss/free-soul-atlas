@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="footer">
       <div>
         <strong>Free Soul Atlas</strong>
-        <p>An open city atlas for soulful places, local walks, city textures, and people who prefer real atmosphere over checklists.</p>
+        <p>An open city archive built through local knowledge, personal perspectives, and community contributions.</p>
       </div>
       <nav>
         <a href="/#cities">Cities</a>
