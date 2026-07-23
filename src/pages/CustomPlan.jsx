@@ -47,11 +47,11 @@ export default function CustomPlan() {
       <form className="editorial-form" onSubmit={submit}>
         <label>Name<input value={form.name} onChange={(e) => update('name', e.target.value)} /></label>
         <label>Email / Instagram / WhatsApp / WeChat<input value={form.contact} onChange={(e) => update('contact', e.target.value)} /></label>
-        <label>Possible time or season<input value={form.dates} onChange={(e) => update('dates', e.target.value)} /></label>
-        <label>Number of people<input value={form.people} onChange={(e) => update('people', e.target.value)} /></label>
+        <label>Possible time, season, or city context<input value={form.dates} onChange={(e) => update('dates', e.target.value)} /></label>
+        <label>People or community context<input value={form.people} onChange={(e) => update('people', e.target.value)} /></label>
         <label>Interests<textarea value={form.interests} onChange={(e) => update('interests', e.target.value)} /></label>
         <label>Context or constraints<input value={form.budget} onChange={(e) => update('budget', e.target.value)} /></label>
-        <label>Energy level<input value={form.energy} onChange={(e) => update('energy', e.target.value)} /></label>
+        <label>Mood or pace<input value={form.energy} onChange={(e) => update('energy', e.target.value)} /></label>
         <label className="wide">What kind of city perspective are you interested in?<textarea value={form.experience} onChange={(e) => update('experience', e.target.value)} /></label>
         <label className="wide">Additional notes<textarea value={form.notes} onChange={(e) => update('notes', e.target.value)} /></label>
         <button className="button dark" type="submit">Share idea</button>

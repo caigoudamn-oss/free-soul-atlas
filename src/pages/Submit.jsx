@@ -215,15 +215,16 @@ export default function Submit() {
           <div>
             <h3>Good examples / 适合贡献</h3>
             <ul>
-              <li>Independent cafés / 独立咖啡店</li>
+              <li>Streets with local character / 有本地气质的街道</li>
+              <li>Small independent shops / 独立小店</li>
+              <li>Buildings or architecture / 建筑或城市空间</li>
+              <li>Natural landscapes / 自然景观</li>
+              <li>Places with special atmosphere / 有特殊氛围的角落</li>
+              <li>Memories or local observations / 记忆或本地观察</li>
               <li>Record stores / 唱片店</li>
               <li>Vintage shops / 古着店</li>
-              <li>Small bars / 小酒吧</li>
               <li>Livehouses / 现场音乐空间</li>
               <li>Bookstores / 书店</li>
-              <li>Galleries / 画廊</li>
-              <li>Street corners with local character / 有本地气质的街角</li>
-              <li>Creative spaces / 创意空间</li>
             </ul>
           </div>
           <div>

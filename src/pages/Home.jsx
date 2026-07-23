@@ -55,7 +55,6 @@ export default function Home() {
             </p>
             <div className="cover-actions">
               <a className="button dark" href="#cities">Choose a City</a>
-              <Link className="button light" to="/local-walks">Local Walks / 本地慢逛</Link>
               <Link className="button light" to="/about">About the Atlas</Link>
             </div>
           </div>

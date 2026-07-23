@@ -21,6 +21,9 @@ export default function About() {
         <p>
           We are not a travel agency, not a packaged travel platform, not an appointment platform, and not a tourism checklist website. We are an archive for places, stories, textures, and perspectives that make cities feel more diverse, more real, and more alive.
         </p>
+        <p>
+          Dalian is the first beta city edition, but not the boundary of the project. Public contributions are reviewed and edited before publication. Local experiences and community activities remain future possibilities, while the current focus is the archive itself.
+        </p>
       </section>
 
       <section className="founder-note">
