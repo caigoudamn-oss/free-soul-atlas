@@ -19,6 +19,7 @@ const placeTypes = [
 
 const fieldLimits = {
   name: 80,
+  cityName: 80,
   area: 80,
   reason: 1000,
   nickname: 50,
@@ -26,10 +27,12 @@ const fieldLimits = {
 }
 
 const allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp']
-const maxImageSize = 5 * 1024 * 1024
+const maxImageSize = 20 * 1024 * 1024
 
 const initialForm = {
   name: '',
+  cityChoice: 'dalian',
+  cityName: '',
   type: 'cafe',
   customType: '',
   area: '',
@@ -50,7 +53,8 @@ export default function Submit() {
 
   const canSubmit = useMemo(() => {
     const hasType = form.type === 'other' ? form.customType.trim() : form.type
-    return form.name.trim() && hasType && form.reason.trim() && responsibilityConfirmed
+    const hasCity = form.cityChoice === 'other' ? form.cityName.trim() : true
+    return form.name.trim() && hasCity && hasType && form.reason.trim() && responsibilityConfirmed
   }, [form, responsibilityConfirmed])
 
   useEffect(() => {
@@ -70,6 +74,7 @@ export default function Submit() {
   function isTooLong() {
     return (
       form.name.length > fieldLimits.name ||
+      form.cityName.length > fieldLimits.cityName ||
       form.area.length > fieldLimits.area ||
       form.reason.length > fieldLimits.reason ||
       form.nickname.length > fieldLimits.nickname ||
@@ -86,7 +91,7 @@ export default function Submit() {
 
     if (!allowedImageTypes.includes(file.type) || file.size > maxImageSize) {
       setPhotoFile(null)
-      setError('Please upload a JPG, PNG, or WebP image under 5MB.\n请上传 5MB 以内的 JPG、PNG 或 WebP 图片。')
+      setError('Please upload a JPG, PNG, or WebP image under 20MB.\n请上传 20MB 以内的 JPG、PNG 或 WebP 图片。')
       return
     }
 
@@ -116,6 +121,10 @@ export default function Submit() {
     }
 
     if (!canSubmit) {
+      if (form.cityChoice === 'other' && !form.cityName.trim()) {
+        setError('Please enter the city name for Other city submissions. / 选择其他城市时，请填写城市名称。')
+        return
+      }
       if (!form.name.trim() || !form.reason.trim() || (form.type === 'other' && !form.customType.trim())) {
         setError('Please complete Place name, Type, and why this place matters. / 请补全地点名、类型和它为什么值得被记录。')
       } else {
@@ -179,6 +188,11 @@ export default function Submit() {
           Submissions are reviewed before publication. We may edit, verify, combine, decline, or request more information when necessary.
           <br />
           投稿会在公开前经过审核。必要时，我们可能会编辑、核实、合并、拒绝投稿，或请求补充信息。
+        </p>
+        <p>
+          Free Soul Atlas is built city by city. Dalian is currently the first beta city, but submissions from other cities are welcome as future city edition candidates.
+          <br />
+          Free Soul Atlas 会一座城市一座城市地建立。大连是当前第一个 Beta city，但我们也欢迎其他城市的投稿，作为未来城市版本的候选内容。
         </p>
       </div>
 
@@ -269,11 +283,40 @@ export default function Submit() {
           <small className="field-help">Maximum {fieldLimits.name} characters / 最多 {fieldLimits.name} 字符。</small>
         </label>
 
-        <label>
-          City / 城市
-          <input value="Dalian" readOnly />
-          <small className="field-help">第一阶段先收集 Dalian / 大连。系统会自动关联 Dalian city edition。</small>
-        </label>
+        <fieldset className="submission-city-field wide">
+          <legend>City / 城市 <span className="field-required">Required</span></legend>
+          <p className="field-help">
+            Dalian is processed first as the current beta city. Other city submissions are kept as future city edition candidates.
+            <br />
+            大连会作为当前 Beta city 优先处理。其他城市投稿会作为未来城市版本候选内容保存。
+          </p>
+          <label className="city-selector">
+            City / 城市
+            <select value={form.cityChoice} onChange={(event) => updateField('cityChoice', event.target.value)}>
+              <option value="dalian">Dalian / 大连 — Current beta city</option>
+              <option value="other">Other city / 其他城市 — For future city editions</option>
+            </select>
+          </label>
+          {form.cityChoice === 'other' && (
+            <label className="city-name-input">
+              City name / 城市名称 <span className="field-required">Required</span>
+              <input
+                value={form.cityName}
+                onChange={(event) => updateField('cityName', event.target.value)}
+                placeholder="Kunming, Shanghai, Tokyo..."
+                maxLength={fieldLimits.cityName}
+              />
+              <small className="field-help">
+                Maximum {fieldLimits.cityName} characters / 最多 {fieldLimits.cityName} 字符。
+              </small>
+            </label>
+          )}
+          <p className="field-help">
+            Submissions from other cities may be reviewed later as future city editions develop.
+            <br />
+            其他城市投稿可能会在未来城市版本建设时再整理和审核。
+          </p>
+        </fieldset>
 
         <label>
           Type / 类型 <span className="field-required">Required</span>
@@ -372,7 +415,7 @@ export default function Submit() {
             accept="image/jpeg,image/png,image/webp"
             onChange={(event) => handlePhotoChange(event.target.files?.[0] || null)}
           />
-          <small className="field-help">JPG, PNG, or WebP only. Maximum 5MB. 仅支持 JPG、PNG 或 WebP，最大 5MB。</small>
+          <small className="field-help">JPG, PNG, or WebP only. Maximum 20MB. 仅支持 JPG、PNG 或 WebP，最大 20MB。</small>
         </label>
 
         {(photoPreview || photoFile) && (
