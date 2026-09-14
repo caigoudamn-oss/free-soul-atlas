@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import { hasSupabaseConfig } from '../lib/supabase'
-import { signInAdmin } from '../services/authService'
+import { hasSupabaseConfig, supabaseConfigStatus } from '../lib/supabase'
+import { getSafeAuthErrorMessage, signInAdmin } from '../services/authService'
+
+const authConfigErrorMessage = 'Authentication service is not configured correctly.'
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('')
@@ -10,13 +12,18 @@ export default function AdminLogin() {
 
   async function submit(event) {
     event.preventDefault()
+    if (!hasSupabaseConfig) {
+      setError(authConfigErrorMessage)
+      return
+    }
     setLoading(true)
     setError('')
     try {
       await signInAdmin(email, password)
       window.location.href = '/admin'
     } catch (loginError) {
-      setError(loginError.message)
+      console.error('Admin sign-in failed:', loginError)
+      setError(getSafeAuthErrorMessage(loginError))
     } finally {
       setLoading(false)
     }
@@ -32,8 +39,11 @@ export default function AdminLogin() {
 
       {!hasSupabaseConfig && (
         <section className="empty-state">
-          <h2>Missing Supabase config</h2>
-          <p>Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY first.</p>
+          <h2>{authConfigErrorMessage}</h2>
+          <p>
+            Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in Vercel Production environment variables.
+            {supabaseConfigStatus.hasUrl && !supabaseConfigStatus.hasValidUrl ? ' The Supabase URL is not a valid URL.' : ''}
+          </p>
         </section>
       )}
 
@@ -41,7 +51,7 @@ export default function AdminLogin() {
         <label>Email<input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required /></label>
         <label>Password<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} required /></label>
         {error && <p className="form-error">{error}</p>}
-        <button className="button dark" type="submit" disabled={loading}>{loading ? 'Signing in...' : 'Sign In'}</button>
+        <button className="button dark" type="submit" disabled={loading || !hasSupabaseConfig}>{loading ? 'Signing in...' : 'Sign In'}</button>
       </form>
     </div>
   )
