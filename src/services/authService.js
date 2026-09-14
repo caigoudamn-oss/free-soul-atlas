@@ -1,5 +1,26 @@
 import { hasSupabaseConfig, requireSupabase, supabase } from '../lib/supabase'
 
+const authConfigErrorMessage = 'Authentication service is not configured correctly.'
+
+function isFetchFailure(error) {
+  const message = String(error?.message || error || '').toLowerCase()
+  return (
+    message.includes('failed to fetch') ||
+    message.includes('networkerror') ||
+    message.includes('network request failed') ||
+    message.includes('load failed') ||
+    message.includes('err_name_not_resolved') ||
+    message.includes('err_blocked_by_client') ||
+    message.includes('err_internet_disconnected') ||
+    message.includes('err_connection')
+  )
+}
+
+export function getSafeAuthErrorMessage(error) {
+  if (!hasSupabaseConfig || isFetchFailure(error)) return authConfigErrorMessage
+  return error?.message || 'Unable to sign in.'
+}
+
 export async function signInAdmin(email, password) {
   const client = requireSupabase()
 
